@@ -3,7 +3,6 @@ from tkinter import ttk
 
 import bisect
 
-
 from python_gui.signal import Signal
 
 
@@ -216,6 +215,9 @@ class ListChoice:
 
     def pack(self, **kwargs):
         self._gui.pack(**kwargs)
+
+    def grid(self, **kwargs):
+        self._gui.grid(**kwargs)
 
     def _on_select(self, ind):
         if ind is None:
