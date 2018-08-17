@@ -1,6 +1,7 @@
 import os
 import sys
 import unittest
+import gc
 
 sys.path.append(os.getcwd())
 import pyclue as pc

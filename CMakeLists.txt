@@ -92,7 +92,10 @@ add_library(pyclue MODULE ${SOURCE_FILES} ${LIB_SOURCE_FILES} ${HEADER_FILES} ${
 set_target_properties(pyclue PROPERTIES PREFIX "")
 set_target_properties(pyclue PROPERTIES SUFFIX ".pyd")
 target_include_directories(pyclue PRIVATE include)
-
 target_include_directories(pyclue SYSTEM PRIVATE ${Boost_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS})
 target_link_libraries(pyclue ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
+
+install(TARGETS pyclue
+        DESTINATION E:/Users/Vincent/Documents/C++/Clue/python_gui
+        CONFIGURATIONS Debug Release)
 #-----------------------------------

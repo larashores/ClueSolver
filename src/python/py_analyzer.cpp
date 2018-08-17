@@ -12,6 +12,7 @@ namespace python {
         {
             dict[pair.first] = pair.second;
         }
+        return dict;
     }
 
 }  // namespace python
