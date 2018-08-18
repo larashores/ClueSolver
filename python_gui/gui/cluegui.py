@@ -63,6 +63,14 @@ class ButtonGrid(ttk.Frame):
                 self.buttons[i].append(button)
 
 
+class Names(ttk.Frame):
+    def __init__(self, *args, names=list(), **kwargs):
+        ttk.Frame.__init__(self, *args, **kwargs)
+        for i, name in enumerate(names):
+            label = ttk.Label(self, text='{}) {}   '.format(i+1, name), style='Subtitle.TLabel')
+            label.pack(side=tk.LEFT)
+
+
 class ClueGui(ttk.Frame):
     def __init__(self, *args, **kwargs):
         ttk.Frame.__init__(self, *args, **kwargs)
@@ -71,12 +79,16 @@ class ClueGui(ttk.Frame):
         self.rooms = ButtonGrid(self, 4, rooms)
         self.guess_list = ListChoice(self, width=100)
         self.guesses = GuessingFrame(self)
+        self.names = Names(self, names=['Vince', 'Kristina', 'Vanessa', 'Cassandra'])
 
-        self.people.grid(row=1, column=1)
-        self.weapons.grid(row=2, column=1, pady=10)
-        self.rooms.grid(row=3, column=1)
-        self.guess_list.grid(row=1, column=2, rowspan=3, sticky=(tk.N + tk.S + tk.E + tk.W))
-        self.guesses.grid(row=1, column=3, rowspan=3, sticky=tk.N, padx=(0, 10))
+        self.people.grid(column=1, row=1, rowspan=2)
+        self.weapons.grid(column=1, row=3, pady=10)
+        self.rooms.grid(column=1, row=4)
+
+        self.names.grid(column=2, row=1)
+        self.guess_list.grid(column=2, row=2, rowspan=3, sticky=(tk.N + tk.S + tk.E + tk.W))
+
+        self.guesses.grid(column=3, row=1, rowspan=4, sticky=tk.N, padx=(0, 10))
         for i in range(3):
-            tk.Grid.rowconfigure(self, i+1, weight=1)
+            tk.Grid.rowconfigure(self, i+2, weight=1)
         tk.Grid.columnconfigure(self, 2, weight=1)
