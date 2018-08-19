@@ -1,3 +1,5 @@
 check_png = 'resources/check.png'
 cross_png = 'resources/cross.png'
 empty_png = 'resources/empty.png'
+up_png = 'resources/up.png'
+down_png = 'resources/down.png'
