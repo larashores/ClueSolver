@@ -9,13 +9,27 @@ from python_gui.gui.new.askplayer import ask_player
 
 
 def ask_new(parent=None):
+    destroyed = False
+
+    def destroy():
+        nonlocal destroyed
+        if not destroyed:
+            destroyed = True
+            top.quit()
+            top.destroy()
+
     top = tk.Toplevel(parent)
     top.wm_title('New Game Creation')
     top.wm_resizable(False, False)
+    top.protocol('WM_DELETE_WINDOW', destroy)
     top.grab_set()
     num_players = ask_num_players(top)
-    names = ask_names(top, num_players)
-    ordered = ask_order(top, names)
-    cards = ask_cards(top, ordered)
-    ask_player(top, ordered)
+    if not destroyed:
+        names = ask_names(top, num_players)
+    if not destroyed:
+        ordered = ask_order(top, names)
+    if not destroyed:
+        cards = ask_cards(top, ordered)
+    if not destroyed:
+        ask_player(top, ordered)
     top.destroy()

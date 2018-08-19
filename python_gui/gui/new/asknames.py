@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 
+from tkinter.messagebox import showwarning
+
 
 class AskNames(ttk.Frame):
     def __init__(self, parent, num_names, **kwargs):
@@ -21,14 +23,21 @@ class AskNames(ttk.Frame):
         question_lbl.grid(column=1, row=1, columnspan=2)
         self.button.grid(column=1, row=num_names+3, columnspan=2, pady=(5, 0))
 
+    def get_names(self):
+        return [var.get().strip() for var in self.vars]
+
 
 def ask_names(parent, num_players):
     def quit_and_destroy():
-        ask.quit()
-        ask.destroy()
+        names = ask.get_names()
+        if len(set(names)) == len(names):
+            parent.quit()
+            ask.destroy()
+        else:
+            showwarning(title='Warning', message='Cannot have two of the same names')
 
     ask = AskNames(parent, num_players)
     ask.pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)
     ask.button.config(command=quit_and_destroy)
-    ask.mainloop()
-    return [var.get() for var in ask.vars]
+    parent.mainloop()
+    return ask.get_names()

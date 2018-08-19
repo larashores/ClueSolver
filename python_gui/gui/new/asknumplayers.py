@@ -25,11 +25,11 @@ class AskNumPlayers(ttk.Frame):
 
 def ask_num_players(parent=None):
     def quit_and_destroy():
-        ask.quit()
+        parent.quit()
         ask.destroy()
 
     ask = AskNumPlayers(parent)
     ask.pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)
     ask.button.config(command=quit_and_destroy)
-    ask.mainloop()
+    parent.mainloop()
     return ask.var.get()

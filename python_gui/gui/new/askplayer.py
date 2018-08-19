@@ -19,7 +19,7 @@ class AskPlayer(ttk.Frame):
 
 def ask_player(parent, names):
     def quit_and_destroy():
-        ask.quit()
+        parent.quit()
         ask.destroy()
 
     ask = AskPlayer(parent)
