@@ -1,9 +1,8 @@
-import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 import enum
 
-from python_gui.gui.resources import check_png, cross_png, empty_png
+from python_gui.resources import check_png, cross_png, empty_png
 
 
 class State(enum.Enum):

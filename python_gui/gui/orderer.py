@@ -4,7 +4,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 from python_gui.gui.listchoice import ListChoice
-from python_gui.gui.resources import up_png, down_png
+from python_gui.resources import up_png, down_png
 
 
 class OrdererGui(ttk.Frame):

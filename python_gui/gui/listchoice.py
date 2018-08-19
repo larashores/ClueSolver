@@ -155,7 +155,7 @@ class ListChoice:
         self._sorted_to_unsorted_index.pop(sorted_ind)
         self._sorted_data.pop(sorted_ind)
         self._gui.lbox.delete(sorted_ind)
-        return  self._data.pop(ind)
+        return self._data.pop(ind)
 
     def clear(self):
         self._clear()
