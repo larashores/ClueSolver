@@ -37,16 +37,15 @@ class AskCards(ttk.Frame):
 
 
 def ask_cards(parent, names=list()):
-    top = tk.Toplevel(parent)
-    ask = AskCards(top, names)
-    ask.pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)
-
-    def command():
+    def quit():
         if ask.validate():
             ask.quit()
+            ask.destroy()
         else:
             showwarning(message='Total number of cards must be less than {}.'.format(total_cards - 2))
 
-    ask.button.config(command=command)
+    ask = AskCards(parent, names)
+    ask.pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)
+    ask.button.config(command=quit)
     ask.mainloop()
     return ask.get_totals()

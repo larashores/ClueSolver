@@ -18,12 +18,14 @@ class AskPlayer(ttk.Frame):
 
 
 def ask_player(parent, names):
-    top = tk.Toplevel(parent)
-    ask = AskPlayer(top)
+    def quit_and_destroy():
+        ask.quit()
+        ask.destroy()
+
+    ask = AskPlayer(parent)
     ask.combobox.config(values=names)
     ask.var.set(names[0])
-
     ask.pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)
-    ask.button.config(command=ask.quit)
+    ask.button.config(command=quit_and_destroy)
     ask.mainloop()
     return ask.var.get()

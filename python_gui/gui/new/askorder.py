@@ -5,9 +5,12 @@ from python_gui.gui.orderer import Orderer
 
 
 def ask_order(parent, names=list()):
-    top = tk.Toplevel(parent)
-    orderer = Orderer(top, names=names)
+    def quit_and_destroy():
+        orderer.gui.quit()
+        orderer.gui.destroy()
+
+    orderer = Orderer(parent, names=names)
     orderer.pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)
-    orderer.gui.confirm.config(command=top.quit)
-    top.mainloop()
+    orderer.gui.confirm.config(command=quit_and_destroy)
+    orderer.gui.mainloop()
     return [name for name in orderer]

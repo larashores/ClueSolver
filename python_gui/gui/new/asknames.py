@@ -23,9 +23,12 @@ class AskNames(ttk.Frame):
 
 
 def ask_names(parent, num_players):
-    top = tk.Toplevel(parent)
-    ask = AskNames(top, num_players)
+    def quit_and_destroy():
+        ask.quit()
+        ask.destroy()
+
+    ask = AskNames(parent, num_players)
     ask.pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)
-    ask.button.config(command=ask.quit)
+    ask.button.config(command=quit_and_destroy)
     ask.mainloop()
     return [var.get() for var in ask.vars]
