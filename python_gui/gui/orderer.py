@@ -10,7 +10,7 @@ from python_gui.resources import up_png, down_png
 class OrdererGui(ttk.Frame):
     def __init__(self, *args, **kwargs):
         ttk.Frame.__init__(self, *args, **kwargs)
-        self.label = ttk.Label(self, text='Select Order', style='Title.TLabel')
+        self.label = ttk.Label(self, text='Select Order', style='Subtitle.TLabel')
         self.list_choice = ListChoice(self, width=30)
         self.confirm = ttk.Button(self, text='Confirm')
         self.up_img = ImageTk.PhotoImage(Image.open(up_png))

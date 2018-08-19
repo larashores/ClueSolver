@@ -16,8 +16,8 @@ class AskNames(ttk.Frame):
             entry = ttk.Entry(self, textvariable=var, justify=tk.CENTER)
             var.set(default)
 
-            lbl.grid(column=1, row=i+2, pady=5)
-            entry.grid(column=2, row=i+2, pady=5)
+            lbl.grid(column=1, row=i+2, pady=5, padx=(0, 6), sticky=tk.E)
+            entry.grid(column=2, row=i+2, pady=5, padx=(6, 0), sticky=tk.W)
         question_lbl.grid(column=1, row=1, columnspan=2)
         self.button.grid(column=1, row=num_names+3, columnspan=2, pady=(5, 0))
 

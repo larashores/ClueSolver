@@ -7,7 +7,7 @@ _MIN = 2
 _MAX = 8
 
 
-class AskPlayers(ttk.Frame):
+class AskNumPlayers(ttk.Frame):
     def __init__(self, *args, **kwargs):
         ttk.Frame.__init__(self, *args, **kwargs)
         lbl = ttk.Label(self, text='How many players are there?', style='Subtitle.TLabel')
@@ -23,9 +23,9 @@ class AskPlayers(ttk.Frame):
         self.button.pack()
 
 
-def ask_players(parent=None):
+def ask_num_players(parent=None):
     top = tk.Toplevel(parent)
-    ask = AskPlayers(top)
+    ask = AskNumPlayers(top)
     ask.pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)
     ask.button.config(command=ask.quit)
     ask.mainloop()
