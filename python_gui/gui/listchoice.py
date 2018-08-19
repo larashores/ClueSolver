@@ -88,6 +88,10 @@ class ListChoice:
     def __len__(self):
         return self._gui.lbox.size()
 
+    def __iter__(self):
+        for ind in self._sorted_to_unsorted_index:
+            yield self._data[ind]
+
     def __getitem__(self, item):
         return self._data[item]
 

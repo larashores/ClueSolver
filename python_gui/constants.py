@@ -21,3 +21,5 @@ rooms = ['Kitchen',
          'Lounge',
          'Hall',
          'Study']
+
+total_cards = len(people) + len(weapons) + len(rooms)

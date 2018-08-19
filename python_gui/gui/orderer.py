@@ -32,7 +32,7 @@ class OrdererGui(ttk.Frame):
 
 class Orderer:
     def __init__(self, parent=None, names=list()):
-        self.gui = OrdererGui()
+        self.gui = OrdererGui(parent)
         self.gui.list_choice.bind('<Control-Up>', self._move_up)
         self.gui.list_choice.bind('<Control-Down>', self._move_down)
         self.gui.up.config(command=self._move_up)
@@ -40,6 +40,10 @@ class Orderer:
 
         for name in names:
             self.gui.list_choice.append(name)
+
+    def __iter__(self):
+        for item in self.gui.list_choice:
+            yield item
 
     def pack(self, *args, **kwargs):
         self.gui.pack(*args, **kwargs)

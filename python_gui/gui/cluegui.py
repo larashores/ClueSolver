@@ -1,6 +1,7 @@
 from tkinter import ttk
 import tkinter as tk
 
+from python_gui.gui.new.newwidget import ask_new
 from python_gui.gui.tristatebutton import TriStateButton
 from python_gui.constants import people, weapons, rooms
 from python_gui.gui.listchoice import ListChoice
@@ -92,3 +93,6 @@ class ClueGui(ttk.Frame):
         for i in range(3):
             tk.Grid.rowconfigure(self, i+2, weight=1)
         tk.Grid.columnconfigure(self, 2, weight=1)
+
+    def on_new(self):
+        ask_new(self)

@@ -12,6 +12,8 @@ def main():
     root.config(menu=menu)
     configure_styles()
     gui = ClueGui(root)
+    menu.signal_new.connect(gui.on_new)
+
     gui.pack(expand=tk.YES, fill=tk.BOTH)
     root.mainloop()
 
