@@ -6,7 +6,7 @@ from python_gui.constants import total_cards
 from python_gui.integercheck import int_validate
 
 
-class AskCards(ttk.Frame):
+class AskNumCards(ttk.Frame):
     def __init__(self, parent, names, **kwargs):
         ttk.Frame.__init__(self, parent, **kwargs)
         self._vars = []

@@ -7,7 +7,7 @@ from python_gui.gui.listchoice import ListChoice
 from python_gui.resources import up_png, down_png
 
 
-class OrdererGui(ttk.Frame):
+class AskOrderGui(ttk.Frame):
     def __init__(self, *args, **kwargs):
         ttk.Frame.__init__(self, *args, **kwargs)
         self.label = ttk.Label(self, text='Select Order Of Play', style='Subtitle.TLabel')
@@ -30,9 +30,9 @@ class OrdererGui(ttk.Frame):
         tk.Grid.rowconfigure(self, 3, weight=1)
 
 
-class Orderer:
+class AskOrder:
     def __init__(self, parent=None, names=list()):
-        self.gui = OrdererGui(parent)
+        self.gui = AskOrderGui(parent)
         self.gui.list_choice.bind('<Control-Up>', self._move_up)
         self.gui.list_choice.bind('<Control-Down>', self._move_down)
         self.gui.up.config(command=self._move_up)
@@ -75,6 +75,6 @@ if __name__ == '__main__':
 
     root = tk.Tk()
     configure_styles()
-    orderer = Orderer(root, names=['Vince', 'Kristina', 'Cassandra', 'Vanessa', 'Mom'])
+    orderer = AskOrder(root, names=['Vince', 'Kristina', 'Cassandra', 'Vanessa', 'Mom'])
     orderer.pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)
     root.mainloop()

@@ -1,7 +1,7 @@
 from tkinter import ttk
 import tkinter as tk
 
-from python_gui.gui.new.newwidget import NewGameWidget
+from python_gui.gui.new.newgamewidget import NewGameWidget
 from python_gui.gui.tristatebutton import TriStateButton
 from python_gui.constants import people, weapons, rooms
 from python_gui.gui.listchoice import ListChoice

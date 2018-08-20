@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class AskPlayer(ttk.Frame):
+class AskActivePlayer(ttk.Frame):
     def __init__(self, *args, names, **kwargs):
         ttk.Frame.__init__(self, *args, **kwargs)
         lbl = ttk.Label(self, text='Which player are you?', style='Subtitle.TLabel')

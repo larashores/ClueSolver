@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
 
-from python_gui.gui.orderer import Orderer
+from python_gui.gui.new.askorder import AskOrder
 from python_gui.gui.new.asknumplayers import AskNumPlayers
 from python_gui.gui.new.asknames import AskNames
-from python_gui.gui.new.askcards import AskCards
-from python_gui.gui.new.askplayer import AskPlayer
+from python_gui.gui.new.asknumcards import AskNumCards
+from python_gui.gui.new.askactiveplayer import AskActivePlayer
 
 
 class NewGameWidget(tk.Toplevel):
@@ -30,19 +30,19 @@ class NewGameWidget(tk.Toplevel):
 
     def on_confirm_names(self):
         self.ask_names_widget.destroy()
-        self.ask_order_widget = Orderer(self.frame, names=self.ask_names_widget.get_names())
+        self.ask_order_widget = AskOrder(self.frame, names=self.ask_names_widget.get_names())
         self.ask_order_widget.set_confirm_command(self.on_confirm_order)
         self.ask_order_widget.pack()
 
     def on_confirm_order(self):
         self.ask_order_widget.gui.destroy()
-        self.ask_num_cards_widget = AskCards(self.frame, [name for name in self.ask_order_widget])
+        self.ask_num_cards_widget = AskNumCards(self.frame, [name for name in self.ask_order_widget])
         self.ask_num_cards_widget.set_confirm_command(self.on_confirm_num_cards)
         self.ask_num_cards_widget.pack()
 
     def on_confirm_num_cards(self):
         self.ask_num_cards_widget.destroy()
-        self.ask_active_player_widget = AskPlayer(self.frame, names=[name for name in self.ask_order_widget])
+        self.ask_active_player_widget = AskActivePlayer(self.frame, names=[name for name in self.ask_order_widget])
         self.ask_active_player_widget.set_confirm_command(self.on_confirm_active_player)
         self.ask_active_player_widget.pack()
 
