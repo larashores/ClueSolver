@@ -36,13 +36,14 @@ class NewGameWidget(tk.Toplevel):
 
     def on_confirm_order(self):
         self.ask_order_widget.gui.destroy()
-        self.ask_num_cards_widget = AskNumCards(self.frame, [name for name in self.ask_order_widget])
+        self.ask_num_cards_widget = AskNumCards(self.frame, [name for name in self.ask_order_widget.list_choice])
         self.ask_num_cards_widget.set_confirm_command(self.on_confirm_num_cards)
         self.ask_num_cards_widget.pack()
 
     def on_confirm_num_cards(self):
         self.ask_num_cards_widget.destroy()
-        self.ask_active_player_widget = AskActivePlayer(self.frame, names=[name for name in self.ask_order_widget])
+        self.ask_active_player_widget = AskActivePlayer(self.frame,
+                                                        names=[name for name in self.ask_order_widget.list_choice])
         self.ask_active_player_widget.set_confirm_command(self.on_confirm_active_player)
         self.ask_active_player_widget.pack()
 

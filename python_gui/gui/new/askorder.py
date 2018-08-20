@@ -33,23 +33,22 @@ class AskOrderGui(ttk.Frame):
 class AskOrder:
     def __init__(self, parent=None, names=list()):
         self.gui = AskOrderGui(parent)
-        self.gui.list_choice.bind('<Control-Up>', self._move_up)
-        self.gui.list_choice.bind('<Control-Down>', self._move_down)
+        self.gui.list_choice.lbox.bind('<Control-Up>', self._move_up)
+        self.gui.list_choice.lbox.bind('<Control-Down>', self._move_down)
         self.gui.up.config(command=self._move_up)
         self.gui.down.config(command=self._move_down)
 
         for name in names:
             self.gui.list_choice.append(name)
 
-    def __iter__(self):
-        for item in self.gui.list_choice:
-            yield item
+    def __getattribute__(self, item):
+        try:
+            return object.__getattribute__(self, item)
+        except AttributeError:
+            return self.gui.__getattribute__(item)
 
     def set_confirm_command(self, func):
         self.gui.button_confirm.config(command=func)
-
-    def pack(self, *args, **kwargs):
-        self.gui.pack(*args, **kwargs)
 
     def _move_up(self, event=None):
         ind = self.gui.list_choice.get_selection()
@@ -62,7 +61,7 @@ class AskOrder:
 
     def _move_down(self, event=None):
         ind = self.gui.list_choice.get_selection()
-        if ind is None or ind == len(self.gui.list_choice) - 1:
+        if ind is None or ind == len(self.gui.list_choice.lbox) - 1:
             return
         item = self.gui.list_choice[ind]
         self.gui.list_choice.pop(ind)

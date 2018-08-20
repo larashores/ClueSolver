@@ -85,8 +85,11 @@ class ListChoice:
         self._gui.signal_up.connect(self._up)
         self._gui.signal_down.connect(self._down)
 
-    def __len__(self):
-        return self._gui.lbox.size()
+    def __getattribute__(self, item):
+        try:
+            return object.__getattribute__(self, item)
+        except AttributeError:
+            return self._gui.__getattribute__(item)
 
     def __iter__(self):
         for ind in self._sorted_to_unsorted_index:
@@ -173,12 +176,6 @@ class ListChoice:
         self._unsorted_to_sorted_index.clear()
         self._gui.lbox.delete(0, tk.END)
 
-    def state(self, *args, **kwargs):
-        self._gui.state(*args, **kwargs)
-
-    def itemconfig(self, *args, **kwargs):
-        self._gui.lbox.itemconfig(*args, **kwargs)
-
     def get_selection(self):
         return self._cur_selection
 
@@ -216,12 +213,6 @@ class ListChoice:
 
     def bind(self, *args, **kwargs):
         self._gui.lbox.bind(*args, **kwargs)
-
-    def pack(self, **kwargs):
-        self._gui.pack(**kwargs)
-
-    def grid(self, **kwargs):
-        self._gui.grid(**kwargs)
 
     def _on_select(self, ind):
         if ind is None:
