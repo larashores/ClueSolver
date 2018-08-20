@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter.messagebox import showwarning
 
 from python_gui.constants import total_cards
 from python_gui.integercheck import int_validate
@@ -26,9 +27,14 @@ class AskCards(ttk.Frame):
         question_lbl.grid(column=1, row=1, columnspan=2)
         self.button_confirm.grid(column=1, row=len(names) + 3, columnspan=2, pady=(5, 0))
 
+    def set_confirm_command(self, func):
+        def confirm_func():
+            if sum(self.get_num_cards()) <= (total_cards - 3):
+                func()
+            else:
+                showwarning(title='Warning',
+                            message='Total number of cards must be less than {}.'.format(total_cards - 2))
+        self.button_confirm.config(command=confirm_func)
+
     def get_num_cards(self):
         return [var.get() for var in self._vars]
-
-    def validate(self):
-        total = sum(self.get_num_cards())
-        return total <= (total_cards - 3)

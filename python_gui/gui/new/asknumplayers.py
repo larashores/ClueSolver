@@ -22,5 +22,8 @@ class AskNumPlayers(ttk.Frame):
         spinbox.pack(pady=10)
         self.button_confirm.pack()
 
+    def set_confirm_command(self, func):
+        self.button_confirm.config(command=func)
+
     def get_num_players(self):
         return self._var.get()

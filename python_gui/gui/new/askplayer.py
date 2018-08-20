@@ -17,5 +17,8 @@ class AskPlayer(ttk.Frame):
         self.combobox.pack(pady=10)
         self.button_confirm.pack()
 
+    def set_confirm_command(self, func):
+        self.button_confirm.config(command=func)
+
     def get_active_player(self):
         return self._var.get()

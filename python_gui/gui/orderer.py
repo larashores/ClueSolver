@@ -45,6 +45,9 @@ class Orderer:
         for item in self.gui.list_choice:
             yield item
 
+    def set_confirm_command(self, func):
+        self.gui.button_confirm.config(command=func)
+
     def pack(self, *args, **kwargs):
         self.gui.pack(*args, **kwargs)
 
