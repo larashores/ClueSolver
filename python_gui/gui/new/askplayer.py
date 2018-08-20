@@ -3,29 +3,19 @@ from tkinter import ttk
 
 
 class AskPlayer(ttk.Frame):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, names, **kwargs):
         ttk.Frame.__init__(self, *args, **kwargs)
         lbl = ttk.Label(self, text='Which player are you?', style='Subtitle.TLabel')
-        self.var = tk.StringVar(self)
-        self.combobox = ttk.Combobox(self, textvariable=self.var, justify=tk.CENTER)
-        self.button = ttk.Button(self, text='Confirm')
+        self._var = tk.StringVar(self)
+        self.combobox = ttk.Combobox(self, textvariable=self._var, justify=tk.CENTER, values=names)
+        self.button_confirm = ttk.Button(self, text='Confirm')
+        self._var.set(names[0])
 
         self.combobox.state(['readonly'])
 
         lbl.pack()
         self.combobox.pack(pady=10)
-        self.button.pack()
+        self.button_confirm.pack()
 
-
-def ask_player(parent, names):
-    def quit_and_destroy():
-        parent.quit()
-        ask.destroy()
-
-    ask = AskPlayer(parent)
-    ask.combobox.config(values=names)
-    ask.var.set(names[0])
-    ask.pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)
-    ask.button.config(command=quit_and_destroy)
-    ask.mainloop()
-    return ask.var.get()
+    def get_active_player(self):
+        return self._var.get()

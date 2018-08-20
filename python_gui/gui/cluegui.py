@@ -1,12 +1,14 @@
 from tkinter import ttk
 import tkinter as tk
 
-from python_gui.gui.new.newwidget import ask_new
+from python_gui.gui.new.newwidget import NewGameWidget
 from python_gui.gui.tristatebutton import TriStateButton
 from python_gui.constants import people, weapons, rooms
 from python_gui.gui.listchoice import ListChoice
 from python_gui.gui.combolabel import ComboLabel
 from python_gui import constants
+
+import python_gui.pyclue as pyclue
 
 
 class GuessingFrame(ttk.Frame):
@@ -94,5 +96,11 @@ class ClueGui(ttk.Frame):
             tk.Grid.rowconfigure(self, i+2, weight=1)
         tk.Grid.columnconfigure(self, 2, weight=1)
 
+
+class Clue:
+    def __init__(self, parent=None):
+        self.gui = ClueGui(parent)
+        self.game = pyclue.Game()
+
     def on_new(self):
-        ask_new(self)
+        widget = NewGameWidget(self.gui, game=self.game)

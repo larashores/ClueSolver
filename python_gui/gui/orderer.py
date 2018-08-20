@@ -12,7 +12,7 @@ class OrdererGui(ttk.Frame):
         ttk.Frame.__init__(self, *args, **kwargs)
         self.label = ttk.Label(self, text='Select Order Of Play', style='Subtitle.TLabel')
         self.list_choice = ListChoice(self, width=30)
-        self.confirm = ttk.Button(self, text='Confirm')
+        self.button_confirm = ttk.Button(self, text='Confirm')
         self.up_img = ImageTk.PhotoImage(Image.open(up_png))
         self.down_img = ImageTk.PhotoImage(Image.open(down_png))
         self.up = ttk.Button(self, image=self.up_img)
@@ -20,7 +20,7 @@ class OrdererGui(ttk.Frame):
 
         self.label.grid(column=1, row=1, columnspan=2)
         self.list_choice.grid(column=1, row=2, rowspan=2, sticky=(tk.N + tk.E + tk.S + tk.W))
-        self.confirm.grid(column=1, row=4, columnspan=2, pady=(5, 0))
+        self.button_confirm.grid(column=1, row=4, columnspan=2, pady=(5, 0))
 
         self.up.grid(column=2, row=2, padx=(5, 0))
         self.down.grid(column=2, row=3, padx=(5, 0))
