@@ -12,6 +12,7 @@ from python_gui.gui.new.askcards import AskCards
 class NewGameWidget(tk.Toplevel):
     def __init__(self, *args, game, **kwargs):
         tk.Toplevel.__init__(self, *args, **kwargs)
+        self.game = game
         self.wm_title('New Game Creation')
         self.wm_resizable(False, False)
         self.protocol('WM_DELETE_WINDOW')
@@ -37,14 +38,13 @@ class NewGameWidget(tk.Toplevel):
 
     def on_confirm_order(self):
         self.ask_order_widget.gui.destroy()
-        self.ask_num_cards_widget = AskNumCards(self.frame, [name for name in self.ask_order_widget.list_choice])
+        self.ask_num_cards_widget = AskNumCards(self.frame, self.ask_order_widget.get_choices())
         self.ask_num_cards_widget.set_confirm_command(self.on_confirm_num_cards)
         self.ask_num_cards_widget.pack()
 
     def on_confirm_num_cards(self):
         self.ask_num_cards_widget.destroy()
-        self.ask_active_player_widget = AskActivePlayer(self.frame,
-                                                        names=[name for name in self.ask_order_widget.list_choice])
+        self.ask_active_player_widget = AskActivePlayer(self.frame, names=self.ask_order_widget.get_choices())
         self.ask_active_player_widget.set_confirm_command(self.on_confirm_active_player)
         self.ask_active_player_widget.pack()
 
@@ -58,3 +58,6 @@ class NewGameWidget(tk.Toplevel):
     def on_confirm_cards(self):
         self.ask_cards_widget.destroy()
         self.destroy()
+
+        for name, card, in zip(self.ask_order_widget.get_choices(), self.ask_num_cards_widget.get_num_cards()):
+            self.game.add_player(card)

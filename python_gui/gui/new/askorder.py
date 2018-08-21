@@ -47,6 +47,9 @@ class AskOrder:
         except AttributeError:
             return self.gui.__getattribute__(item)
 
+    def get_choices(self):
+        return [choice for choice in self.gui.list_choice]
+
     def set_confirm_command(self, func):
         self.gui.button_confirm.config(command=func)
 
