@@ -22,3 +22,6 @@ class AskActivePlayer(ttk.Frame):
 
     def get_active_player(self):
         return self._var.get()
+
+    def get_active_index(self):
+        return self.combobox.current()

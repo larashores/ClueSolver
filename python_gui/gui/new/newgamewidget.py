@@ -49,8 +49,9 @@ class NewGameWidget(tk.Toplevel):
         self.ask_active_player_widget.pack()
 
     def on_confirm_active_player(self):
+        num_cards = self.ask_num_cards_widget.get_num_cards()[self.ask_active_player_widget.get_active_index()]
         self.ask_active_player_widget.destroy()
-        self.ask_cards_widget = AskCards(self.frame)
+        self.ask_cards_widget = AskCards(self.frame, num_cards=num_cards)
         self.ask_cards_widget.set_confirm_command(self.on_confirm_cards)
         self.ask_cards_widget.pack()
 
