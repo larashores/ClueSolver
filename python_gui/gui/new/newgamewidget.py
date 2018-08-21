@@ -6,6 +6,7 @@ from python_gui.gui.new.asknumplayers import AskNumPlayers
 from python_gui.gui.new.asknames import AskNames
 from python_gui.gui.new.asknumcards import AskNumCards
 from python_gui.gui.new.askactiveplayer import AskActivePlayer
+from python_gui.gui.new.askcards import AskCards
 
 
 class NewGameWidget(tk.Toplevel):
@@ -49,4 +50,10 @@ class NewGameWidget(tk.Toplevel):
 
     def on_confirm_active_player(self):
         self.ask_active_player_widget.destroy()
+        self.ask_cards_widget = AskCards(self.frame)
+        self.ask_cards_widget.set_confirm_command(self.on_confirm_cards)
+        self.ask_cards_widget.pack()
+
+    def on_confirm_cards(self):
+        self.ask_cards_widget.destroy()
         self.destroy()
