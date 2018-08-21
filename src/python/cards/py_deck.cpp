@@ -7,17 +7,17 @@ namespace python {
 
 PY::list people(Deck& deck)
 {
-    return stl2pyptr(deck.people);
+    return to_ptr_list(deck.people);
 }
 
 PY::list weapons(Deck& deck)
 {
-    return stl2pyptr(deck.weapons);
+    return to_ptr_list(deck.weapons);
 }
 
 PY::list rooms(Deck& deck)
 {
-    return stl2pyptr(deck.rooms);
+    return to_ptr_list(deck.rooms);
 }
 
 }  // namespace
