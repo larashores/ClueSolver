@@ -51,7 +51,7 @@ class NewGameWidget(tk.Toplevel):
     def on_confirm_active_player(self):
         num_cards = self.ask_num_cards_widget.get_num_cards()[self.ask_active_player_widget.get_active_index()]
         self.ask_active_player_widget.destroy()
-        self.ask_cards_widget = AskCards(self.frame, num_cards=num_cards)
+        self.ask_cards_widget = AskCards(self.frame, game=self.game, num_cards=num_cards)
         self.ask_cards_widget.set_confirm_command(self.on_confirm_cards)
         self.ask_cards_widget.pack()
 
@@ -61,3 +61,6 @@ class NewGameWidget(tk.Toplevel):
 
         for name, card, in zip(self.ask_order_widget.get_choices(), self.ask_num_cards_widget.get_num_cards()):
             self.game.add_player(name, card)
+
+        for card in self.ask_cards_widget.get_selected():
+            print(card)
