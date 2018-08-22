@@ -84,9 +84,20 @@ void Game::add_override(const Player& player, const Card& card, bool yes)
 {
     if (yes)
     {
-        m_positive_overrides[&player] = &card;
+        m_positive_overrides[&player].push_back(&card);
     } else 
     {
-        m_negative_overrides[&player] = &card;
+        m_negative_overrides[&player].push_back(&card);
     }
 }
+
+const std::map<const Player*, std::vector<const Card*>>& Game::get_positive_overrides() const
+{
+    return m_positive_overrides;
+}
+
+const std::map<const Player*, std::vector<const Card*>>& Game::get_negative_overrides() const
+{
+    return m_positive_overrides;
+}
+

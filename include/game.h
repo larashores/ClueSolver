@@ -19,6 +19,8 @@ public:
                    const Person& murderer, const Weapon& weapon, const Room& room,
                    const Card* card = nullptr);
     void add_override(const Player& player, const Card& card, bool yes);
+    const std::map<const Player*, std::vector<const Card*>>& get_positive_overrides() const;
+    const std::map<const Player*, std::vector<const Card*>>& get_negative_overrides() const;
     const std::vector<Guess> get_guesses() const;
     const std::list<Player>& get_const_players() const;
     std::vector<Player*> get_players();
@@ -35,6 +37,6 @@ private:
 
     std::list<Player> m_players;
     std::vector<Guess> m_guesses;
-    std::map<const Player*, const Card*> m_positive_overrides;
-    std::map<const Player*, const Card*> m_negative_overrides;
+    std::map<const Player*, std::vector<const Card*>> m_positive_overrides;
+    std::map<const Player*, std::vector<const Card*>> m_negative_overrides;
 };

@@ -34,7 +34,10 @@ BOOST_PYTHON_MODULE(pyclue)
     PY::class_<Card>("Card", PY::no_init)
             .def_readonly("name", &Card::name)
             .def_readonly("type", &Card::type)
-            .def(PY::self_ns::str(PY::self_ns::self));
+            .def(PY::self_ns::str(PY::self_ns::self))
+            .def(PY::self_ns::self == PY::self_ns::self);
+    PY::register_ptr_to_python<std::shared_ptr<Card>>();
+    PY::register_ptr_to_python<std::shared_ptr<const Card>>();
 
     PY::class_<Person, PY::bases<Card>>("Person", PY::init<const std::string&>());
     PY::class_<Weapon, PY::bases<Card>>("Weapon", PY::init<const std::string&>());
@@ -54,7 +57,8 @@ BOOST_PYTHON_MODULE(pyclue)
     PY::class_<Player, boost::noncopyable>("Player", PY::init<const std::string&, int>())
             .def_readwrite("name", &Player::name)
             .def_readwrite("num_cards", &Player::num_cards)
-            .def(PY::self_ns::str(PY::self_ns::self));
+            .def(PY::self_ns::str(PY::self_ns::self))
+            .def(PY::self_ns::self == PY::self_ns::self);
     PY::register_ptr_to_python<std::shared_ptr<Player>>();
     PY::register_ptr_to_python<std::shared_ptr<const Player>>();
 

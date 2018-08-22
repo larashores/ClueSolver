@@ -16,6 +16,20 @@ std::map<const Player*, Stats> Analyzer::get_stats() const
                       std::make_tuple(&player),
                       std::make_tuple());
     }
+    for(auto& pair: m_game.get_positive_overrides())
+    {
+        for (auto& card: pair.second)
+        {
+            stats[pair.first].positives.insert(card);
+        }
+    }
+    for(auto& pair: m_game.get_negative_overrides())
+    {
+        for (auto& card: pair.second)
+        {
+            stats[pair.first].negatives.insert(card);
+        }
+    }
     for (auto& guess: m_game.get_guesses())
     {
         if (guess.answer)
