@@ -18,6 +18,11 @@ class ButtonGrid(ttk.Frame):
                 button.grid(row=i+2, column=j+2)
                 self._button_rows[i].append(button)
 
+    def state(self, *args, **kwargs):
+        for row in self._button_rows:
+            for button in row:
+                button.state(*args, **kwargs)
+
     def get_statuses_from_column(self, col):
         return [row[col].get_status() for row in self._button_rows]
 

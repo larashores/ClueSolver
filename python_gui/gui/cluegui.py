@@ -58,26 +58,32 @@ class Names(ttk.Frame):
             label.pack(side=tk.LEFT)
 
 
+class CardDisplay(ttk.Frame):
+    def __init__(self, *args, columns, **kwargs):
+        ttk.Frame.__init__(self, *args, **kwargs)
+        self.people = ButtonGrid(self, columns, people, [str(i + 1) for i in range(columns)])
+        self.weapons = ButtonGrid(self, columns, weapons)
+        self.rooms = ButtonGrid(self, columns, rooms)
+
+        self.people.pack()
+        self.weapons.pack(pady=10)
+        self.rooms.pack()
+
+
 class ClueGui(ttk.Frame):
     def __init__(self, *args, **kwargs):
         ttk.Frame.__init__(self, *args, **kwargs)
-        self.people = ButtonGrid(self, 4, people, [str(i + 1) for i in range(4)])
-        self.weapons = ButtonGrid(self, 4, weapons)
-        self.rooms = ButtonGrid(self, 4, rooms)
+        self.card_display = CardDisplay(self, columns=4)
         self.guess_list = ListChoice(self, width=100)
         self.guesses = GuessingFrame(self)
         self.names = Names(self, names=['Vince', 'Kristina', 'Vanessa', 'Cassandra'])
 
-        self.people.grid(column=1, row=1, rowspan=2)
-        self.weapons.grid(column=1, row=3, pady=10)
-        self.rooms.grid(column=1, row=4)
+        self.card_display.grid(column=1, row=1, rowspan=2)
 
         self.names.grid(column=2, row=1)
-        self.guess_list.grid(column=2, row=2, rowspan=3, sticky=(tk.N + tk.S + tk.E + tk.W))
-
-        self.guesses.grid(column=3, row=1, rowspan=4, sticky=tk.N, padx=(0, 10))
-        for i in range(3):
-            tk.Grid.rowconfigure(self, i+2, weight=1)
+        self.guess_list.grid(column=2, row=2, sticky=(tk.N + tk.S + tk.E + tk.W))
+        self.guesses.grid(column=3, row=1, rowspan=2, sticky=tk.N, padx=(0, 10))
+        tk.Grid.rowconfigure(self, 2, weight=1)
         tk.Grid.columnconfigure(self, 2, weight=1)
 
 
