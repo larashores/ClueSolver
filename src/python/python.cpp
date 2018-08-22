@@ -56,6 +56,7 @@ BOOST_PYTHON_MODULE(pyclue)
             .def_readwrite("num_cards", &Player::num_cards)
             .def(PY::self_ns::str(PY::self_ns::self));
     PY::register_ptr_to_python<std::shared_ptr<Player>>();
+    PY::register_ptr_to_python<std::shared_ptr<const Player>>();
 
     PY::class_<Guess, boost::noncopyable>("Guess", PY::no_init)
             .def("guesser", &python::guesser, PY::return_internal_reference<>())
@@ -65,7 +66,7 @@ BOOST_PYTHON_MODULE(pyclue)
             .def("room", &python::room, PY::return_internal_reference<>())
             .def("answer", &python::answer, PY::return_internal_reference<>());
 
-    PY::class_<Stats, boost::noncopyable>("Stats")
+    PY::class_<Stats>("Stats")
             .def("positives", &python::positives)
             .def("negatives", &python::negatives);
 

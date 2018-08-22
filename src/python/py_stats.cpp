@@ -8,11 +8,21 @@ namespace python
 {
     PY::list positives(Stats& stats)
     {
-        return stl2py(stats.positives);
+        boost::python::list list;
+        for(auto& arg: stats.positives)
+        {
+            list.append(to_shared_ptr(*arg));
+        }
+        return list;
     }
 
     PY::list negatives(Stats& stats)
     {
-        return stl2py(stats.negatives);
+        boost::python::list list;
+        for(auto& arg: stats.negatives)
+        {
+            list.append(to_shared_ptr(*arg));
+        }
+        return list;
     }
 }

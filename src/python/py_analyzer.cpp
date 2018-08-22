@@ -1,4 +1,5 @@
 #include "python/py_analyzer.h"
+#include "python/py_utilities.h"
 
 namespace PY = boost::python;
 
@@ -10,7 +11,7 @@ namespace python {
         auto stat_map {analyzer.get_stats()};
         for(auto& pair: stat_map)
         {
-            dict[pair.first] = pair.second;
+            dict[to_shared_ptr(*pair.first)] = pair.second;
         }
         return dict;
     }
