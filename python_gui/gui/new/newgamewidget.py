@@ -19,10 +19,14 @@ class NewGameWidget(tk.Toplevel):
         self.grab_set()
         self.frame = ttk.Frame(self)
         self.frame.pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)
+        self.close_command = lambda: None
 
         self.num_players_widget = AskNumPlayers(self.frame)
         self.num_players_widget.set_confirm_command(self.on_confirm_num_players)
         self.num_players_widget.pack()
+
+    def set_close_command(self, func):
+        self.close_command = func
 
     def on_confirm_num_players(self):
         self.num_players_widget.destroy()
@@ -65,3 +69,4 @@ class NewGameWidget(tk.Toplevel):
         player = self.game.get_players()[self.ask_active_player_widget.get_active_index()]
         for card in self.ask_cards_widget.get_selected():
             self.game.add_override(player, card, True)
+        self.close_command()

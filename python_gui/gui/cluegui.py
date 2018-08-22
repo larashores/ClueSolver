@@ -69,6 +69,14 @@ class CardDisplay(ttk.Frame):
         self.weapons.pack(pady=10)
         self.rooms.pack()
 
+    def regrid(self, columns):
+        self.people.regrid(columns, [str(i + 1) for i in range(columns)])
+        self.weapons.regrid(columns)
+        self.rooms.regrid(columns)
+
+    def update_buttons(self, game):
+        print(game.analyzer.stats())
+
 
 class ClueGui(ttk.Frame):
     def __init__(self, *args, **kwargs):
@@ -94,3 +102,5 @@ class Clue:
 
     def on_new(self):
         widget = NewGameWidget(self.gui, game=self.game)
+        widget.set_close_command(lambda: self.gui.card_display.regrid(len(self.game.get_players())))
+        self.gui.card_display.update_buttons(self.game)
