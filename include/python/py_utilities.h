@@ -50,4 +50,10 @@ boost::python::list to_ptr_list(Sequence& sequence)
     return list;
 }
 
+template<typename T>
+long hash_object(const T& obj)
+{
+    return reinterpret_cast<std::uintptr_t>(&obj) / 8;
+}
+
 }  // namespace
