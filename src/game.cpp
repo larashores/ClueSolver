@@ -79,3 +79,14 @@ int Game::get_remaining_cards() const
     }
     return start;
 }
+
+void Game::add_override(const Player& player, const Card& card, bool yes)
+{
+    if (yes)
+    {
+        m_positive_overrides[&player] = &card;
+    } else 
+    {
+        m_negative_overrides[&player] = &card;
+    }
+}
