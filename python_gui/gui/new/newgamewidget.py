@@ -62,5 +62,6 @@ class NewGameWidget(tk.Toplevel):
         for name, card, in zip(self.ask_order_widget.get_choices(), self.ask_num_cards_widget.get_num_cards()):
             self.game.add_player(name, card)
 
+        player = self.game.get_players()[self.ask_active_player_widget.get_active_index()]
         for card in self.ask_cards_widget.get_selected():
-            print(card)
+            self.game.add_override(player, card, True)

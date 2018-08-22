@@ -10,8 +10,10 @@ class AskActivePlayer(ttk.Frame):
         self.combobox = ttk.Combobox(self, textvariable=self._var, justify=tk.CENTER, values=names)
         self.button_confirm = ttk.Button(self, text='Confirm')
         self._var.set(names[0])
+        self.active = 0
 
         self.combobox.state(['readonly'])
+        self.combobox.bind("<<ComboboxSelected>>", self._on_select)
 
         lbl.pack()
         self.combobox.pack(pady=10)
@@ -24,4 +26,7 @@ class AskActivePlayer(ttk.Frame):
         return self._var.get()
 
     def get_active_index(self):
-        return self.combobox.current()
+        return self.active
+
+    def _on_select(self, event):
+        self.active = self.combobox.current()
