@@ -75,7 +75,21 @@ class CardDisplay(ttk.Frame):
         self.rooms.regrid(columns)
 
     def update_buttons(self, game):
-        print(game.analyzer.stats())
+        cards_to_button_row = {}
+        for cards, grid in ((game.deck.people(), self.people),
+                            (game.deck.weapons(), self.weapons),
+                            (game.deck.rooms(), self.rooms)):
+            for i, card in enumerate(cards):
+                cards_to_button_row[card] = grid.get_button_row(i)
+
+        stat_map = game.analyzer.stats()
+        for ind, player in enumerate(game.get_players()):
+            if player not in stat_map:
+                continue
+            stats = stat_map[player]
+            print(player)
+            print([card.type for card in stats.positives()])
+            print([card.name for card in stats.negatives()])
 
 
 class ClueGui(ttk.Frame):
@@ -102,5 +116,8 @@ class Clue:
 
     def on_new(self):
         widget = NewGameWidget(self.gui, game=self.game)
-        widget.set_close_command(lambda: self.gui.card_display.regrid(len(self.game.get_players())))
+        widget.set_close_command(self.on_close_new)
+
+    def on_close_new(self):
+        self.gui.card_display.regrid(len(self.game.get_players()))
         self.gui.card_display.update_buttons(self.game)

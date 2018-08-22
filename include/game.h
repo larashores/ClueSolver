@@ -18,9 +18,6 @@ public:
     void add_guess(const Player& guessor, const Player* answerer,
                    const Person& murderer, const Weapon& weapon, const Room& room,
                    const Card* card = nullptr);
-    void add_override(const Player& player, const Card& card, bool yes);
-    const std::map<const Player*, std::vector<const Card*>>& get_positive_overrides() const;
-    const std::map<const Player*, std::vector<const Card*>>& get_negative_overrides() const;
     const std::vector<Guess> get_guesses() const;
     const std::list<Player>& get_const_players() const;
     std::vector<Player*> get_players();
@@ -32,11 +29,12 @@ public:
     const Deck deck;
     const Analyzer analyzer;
 
+    std::map<const Player*, std::vector<const Card*>> positive_overrides;
+    std::map<const Player*, std::vector<const Card*>> negative_overrides;
+
 private:
     const Player* m_active_player {nullptr};
 
     std::list<Player> m_players;
     std::vector<Guess> m_guesses;
-    std::map<const Player*, std::vector<const Card*>> m_positive_overrides;
-    std::map<const Player*, std::vector<const Card*>> m_negative_overrides;
 };

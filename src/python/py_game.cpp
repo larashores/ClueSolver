@@ -19,4 +19,45 @@ namespace python {
         return list;
     }
 
+    void add_override(Game& game, const Player* player, const Card* card, bool yes)
+    {
+        if(yes)
+        {
+            game.positive_overrides[player].push_back(card);
+        } else
+        {
+            game.negative_overrides[player].push_back(card);
+        }
+    }
+
+    PY::dict positive_overrides(Game& game)
+    {
+        boost::python::dict dict;
+        for(auto& pair: game.positive_overrides)
+        {
+            boost::python::list list;
+            for(auto& card: pair.second)
+            {
+                list.append(std::shared_ptr<const Card>(card, [=](auto){}));
+            }
+            dict[std::shared_ptr<const Player>(pair.first, [=](auto){})] = list;
+        }
+        return dict;
+    }
+
+    PY::dict negative_overrides(Game& game)
+    {
+        boost::python::dict dict;
+        for(auto& pair: game.negative_overrides)
+        {
+            boost::python::list list;
+            for(auto& card: pair.second)
+            {
+                list.append(std::shared_ptr<const Card>(card, [=](auto){}));
+            }
+            dict[std::shared_ptr<const Player>(pair.first, [=](auto){})] = list;
+        }
+        return dict;
+    }
+
 }  // namespace python

@@ -7,7 +7,7 @@ from python_gui.gui.tristatusbutton import TriStatusButton
 class ButtonGrid(ttk.Frame):
     def __init__(self, parent=None, columns=0, row_names=list(), column_names=list(), **kwargs):
         ttk.Frame.__init__(self, parent, **kwargs)
-        self._button_columns = []
+        self._button_columns = [[] for _ in range(columns)]
         self._widgets = []
         self._row_names = row_names
         self.regrid(columns, column_names)
@@ -15,7 +15,8 @@ class ButtonGrid(ttk.Frame):
     def regrid(self, columns, column_names=list()):
         for widget in self._widgets:
             widget.destroy()
-        self._button_columns = [[] for _ in range(columns)]
+        for col in self._button_columns:
+            col.clear()
         for j, name in enumerate(column_names):
             label = ttk.Label(self, text=name, style='Subtitle.TLabel')
             label.grid(row=1, column=j+2)
@@ -34,6 +35,9 @@ class ButtonGrid(ttk.Frame):
         for col in self._button_columns:
             for button in col:
                 button.state(*args, **kwargs)
+
+    def get_button_row(self, row):
+        return [col[row] for col in self._button_columns]
 
     def get_statuses_from_column(self, col):
         return [button.get_status() for button in self._button_columns[col]]
