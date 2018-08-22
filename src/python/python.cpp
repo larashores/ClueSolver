@@ -3,9 +3,7 @@
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 #include <boost/python/register_ptr_to_python.hpp>
 
-#include "python/cards/py_cards.h"
 #include "python/cards/py_deck.h"
-#include "python/py_player.h"
 #include "python/py_guess.h"
 #include "python/py_stats.h"
 #include "python/py_analyzer.h"
@@ -36,7 +34,7 @@ BOOST_PYTHON_MODULE(pyclue)
             .def_readonly("type", &Card::type)
             .def("__hash__", &python::hash_object<Card>)
             .def("__eq__", &python::equals_object<Card>)
-            .def(PY::self_ns::str(PY::self_ns::self));
+            .def("__str__", &python::string_object<Card>);
     PY::register_ptr_to_python<std::shared_ptr<Card>>();
     PY::register_ptr_to_python<std::shared_ptr<const Card>>();
 
@@ -60,7 +58,7 @@ BOOST_PYTHON_MODULE(pyclue)
             .def_readwrite("num_cards", &Player::num_cards)
             .def("__hash__", &python::hash_object<Player>)
             .def("__eq__", &python::equals_object<Player>)
-            .def(PY::self_ns::str(PY::self_ns::self));
+            .def("__str__", &python::string_object<Player>);
     PY::register_ptr_to_python<std::shared_ptr<Player>>();
     PY::register_ptr_to_python<std::shared_ptr<const Player>>();
 

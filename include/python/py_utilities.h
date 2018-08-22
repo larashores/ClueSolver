@@ -62,4 +62,10 @@ bool equals_object(const T& obj1, const T& obj2)
     return &obj1 == &obj2;
 }
 
+template<typename T>
+std::string string_object(const T& obj)
+{
+    return std::string{obj};
+}
+
 }  // namespace

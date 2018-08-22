@@ -14,11 +14,9 @@ set(SOURCE_FILES src/game.cpp
                  src/analyzer.cpp)
 set(TEST_SOURCE_FILES src/main.cpp)
 set(LIB_SOURCE_FILES src/python/python.cpp
-                     src/python/cards/py_cards.cpp
-                     src/python/cards/py_deck.cpp
+        src/python/cards/py_deck.cpp
                      src/python/py_guess.cpp
-                     src/python/py_player.cpp
-                     src/python/py_stats.cpp
+        src/python/py_stats.cpp
                      src/python/py_utilities.cpp
                      src/python/py_analyzer.cpp
                      src/python/py_game.cpp)
@@ -34,10 +32,9 @@ set(HEADER_FILES include/game.h
                  include/cards/weapon.h
                  include/cards/room.h
                  include/analyzer.h)
-set(LIB_HEADER_FILES include/python/cards/py_cards.h
+set(LIB_HEADER_FILES
                      include/python/cards/py_deck.h
                      include/python/py_guess.h
-                     include/python/py_player.h
                      include/python/py_stats.h
                      include/python/py_utilities.h
                      include/python/py_analyzer.h
