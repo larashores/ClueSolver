@@ -60,4 +60,4 @@ class NewGameWidget(tk.Toplevel):
         self.destroy()
 
         for name, card, in zip(self.ask_order_widget.get_choices(), self.ask_num_cards_widget.get_num_cards()):
-            self.game.add_player(card)
+            self.game.add_player(name, card)

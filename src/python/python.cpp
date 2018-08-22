@@ -39,6 +39,12 @@ BOOST_PYTHON_MODULE(pyclue)
     PY::class_<Person, PY::bases<Card>>("Person", PY::init<const std::string&>());
     PY::class_<Weapon, PY::bases<Card>>("Weapon", PY::init<const std::string&>());
     PY::class_<Room, PY::bases<Card>>("Room", PY::init<const std::string&>());
+    PY::register_ptr_to_python<std::shared_ptr<Person>>();
+    PY::register_ptr_to_python<std::shared_ptr<Weapon>>();
+    PY::register_ptr_to_python<std::shared_ptr<Room>>();
+    PY::register_ptr_to_python<std::shared_ptr<const Person>>();
+    PY::register_ptr_to_python<std::shared_ptr<const Weapon>>();
+    PY::register_ptr_to_python<std::shared_ptr<const Room>>();
 
     PY::class_<Deck>("Deck")
             .def("people", &python::people)

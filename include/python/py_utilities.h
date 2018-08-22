@@ -28,19 +28,19 @@ boost::python::list stl2pyptr(Sequence sequence)
 }
 
 template <typename T, typename std::enable_if_t<!std::is_pointer<T>::value>* = nullptr>
-std::shared_ptr<T> to_shared_ptr(T val)
+std::shared_ptr<T> to_shared_ptr(T& val)
 {
-    return std::shared_ptr<T>(&val, [=](void*){});
+    return std::shared_ptr<T>(&val, [=](auto){});
 }
 
 template <typename T, typename std::enable_if_t<std::is_pointer<T>::value>* = nullptr>
-std::shared_ptr<T> to_shared_ptr(T val)
+std::shared_ptr<T> to_shared_ptr(T& val)
 {
-    return std::shared_ptr<T>(val, [=](void*){});
+    return std::shared_ptr<T>(val, [=](auto){});
 }
 
 template<typename Sequence>
-boost::python::list to_ptr_list(Sequence sequence)
+boost::python::list to_ptr_list(Sequence& sequence)
 {
     boost::python::list list;
     for(auto& arg: sequence)
