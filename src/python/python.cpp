@@ -35,8 +35,8 @@ BOOST_PYTHON_MODULE(pyclue)
             .def_readonly("name", &Card::name)
             .def_readonly("type", &Card::type)
             .def("__hash__", &python::hash_object<Card>)
-            .def(PY::self_ns::str(PY::self_ns::self))
-            .def(PY::self_ns::self == PY::self_ns::self);
+            .def("__eq__", &python::equals_object<Card>)
+            .def(PY::self_ns::str(PY::self_ns::self));
     PY::register_ptr_to_python<std::shared_ptr<Card>>();
     PY::register_ptr_to_python<std::shared_ptr<const Card>>();
 
@@ -59,8 +59,8 @@ BOOST_PYTHON_MODULE(pyclue)
             .def_readwrite("name", &Player::name)
             .def_readwrite("num_cards", &Player::num_cards)
             .def("__hash__", &python::hash_object<Player>)
-            .def(PY::self_ns::str(PY::self_ns::self))
-            .def(PY::self_ns::self == PY::self_ns::self);
+            .def("__eq__", &python::equals_object<Player>)
+            .def(PY::self_ns::str(PY::self_ns::self));
     PY::register_ptr_to_python<std::shared_ptr<Player>>();
     PY::register_ptr_to_python<std::shared_ptr<const Player>>();
 

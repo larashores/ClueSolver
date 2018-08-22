@@ -56,4 +56,10 @@ long hash_object(const T& obj)
     return reinterpret_cast<std::uintptr_t>(&obj) / 8;
 }
 
+template<typename T>
+bool equals_object(const T& obj1, const T& obj2)
+{
+    return &obj1 == &obj2;
+}
+
 }  // namespace
