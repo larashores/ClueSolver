@@ -58,23 +58,23 @@ void Analyzer::analyze_negatives(std::map<const Player *, Stats>& stats) const
 void Analyzer::analyze_overrides(std::map<const Player*, Stats>& stats) const
 {
 
-    for(auto& pair: m_game.positive_overrides)
+    for(auto& [player, cards]: m_game.positive_overrides)
     {
-        auto& set {stats[pair.first].positives};
-        std::copy(pair.second.begin(), pair.second.end(), std::inserter(set, set.begin()));
-        for(auto& player: m_game.get_const_players())
+        auto& set {stats[player].positives};
+        std::copy(cards.begin(), cards.end(), std::inserter(set, set.begin()));
+        for(auto& player2: m_game.get_const_players())
         {
-            if (&player != pair.first)
+            if (&player2 != player)
             {
-                auto& negative_set {stats[pair.first].positives};
-                std::copy(pair.second.begin(), pair.second.end(), std::inserter(negative_set, negative_set.begin()));
+                auto& negative_set {stats[&player2].negatives};
+                std::copy(cards.begin(), cards.end(), std::inserter(negative_set, negative_set.begin()));
             }
         }
     }
-    for(auto& pair: m_game.negative_overrides)
+    for(auto& [player, cards]: m_game.negative_overrides)
     {
-        auto& set {stats[pair.first].negatives};
-        std::copy(pair.second.begin(), pair.second.end(), std::inserter(set, set.begin()));
+        auto& set {stats[player].negatives};
+        std::copy(cards.begin(), cards.end(), std::inserter(set, set.begin()));
     }
 }
 

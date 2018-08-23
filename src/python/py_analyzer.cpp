@@ -9,9 +9,9 @@ namespace python {
     {
         PY::dict dict;
         auto stat_map {analyzer.get_stats()};
-        for(auto& pair: stat_map)
+        for(auto& [player, stats]: stat_map)
         {
-            dict[to_shared_ptr(*pair.first)] = pair.second;
+            dict[to_shared_ptr(*player)] = stats;
         }
         return dict;
     }

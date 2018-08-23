@@ -33,14 +33,14 @@ namespace python {
     PY::dict positive_overrides(Game& game)
     {
         boost::python::dict dict;
-        for(auto& pair: game.positive_overrides)
+        for(auto& [player, cards]: game.positive_overrides)
         {
             boost::python::list list;
-            for(auto& card: pair.second)
+            for(auto& card: cards)
             {
                 list.append(std::shared_ptr<const Card>(card, [=](auto){}));
             }
-            dict[std::shared_ptr<const Player>(pair.first, [=](auto){})] = list;
+            dict[std::shared_ptr<const Player>(player, [=](auto){})] = list;
         }
         return dict;
     }
@@ -48,14 +48,14 @@ namespace python {
     PY::dict negative_overrides(Game& game)
     {
         boost::python::dict dict;
-        for(auto& pair: game.negative_overrides)
+        for(auto& [player, cards]: game.negative_overrides)
         {
             boost::python::list list;
-            for(auto& card: pair.second)
+            for(auto& card: cards)
             {
                 list.append(std::shared_ptr<const Card>(card, [=](auto){}));
             }
-            dict[std::shared_ptr<const Player>(pair.first, [=](auto){})] = list;
+            dict[std::shared_ptr<const Player>(player, [=](auto){})] = list;
         }
         return dict;
     }
