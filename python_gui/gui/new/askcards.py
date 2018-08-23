@@ -33,15 +33,17 @@ class AskCards(ttk.Frame):
         self.button_confirm.grid(column=1, row=5, pady=10)
 
     def get_selected(self):
-        cards = []
+        card_list = []
         pairs = [(self.game.deck.people(), self.people),
                  (self.game.deck.weapons(), self.weapons),
                  (self.game.deck.rooms(), self.rooms)]
         for cards, widget in pairs:
             for card, state in zip(cards, widget.get_statuses_from_column(0)):
+
                 if state == TriStatusButton.Status.YES:
-                    cards.append(card)
-        return cards
+                    card_list.append(card)
+
+        return card_list
 
     def set_confirm_command(self, func):
         def get_statuses(button_grid):

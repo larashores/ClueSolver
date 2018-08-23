@@ -6,6 +6,7 @@ from python_gui.gui.buttongrid import ButtonGrid
 from python_gui.constants import people, weapons, rooms
 from python_gui.gui.listchoice import ListChoice
 from python_gui.gui.combolabel import ComboLabel
+from python_gui.gui.tristatusbutton import TriStatusButton
 from python_gui import constants
 
 import python_gui.pyclue as pyclue
@@ -59,11 +60,11 @@ class Names(ttk.Frame):
 
 
 class CardDisplay(ttk.Frame):
-    def __init__(self, *args, columns, **kwargs):
+    def __init__(self, *args, columns, game, **kwargs):
         ttk.Frame.__init__(self, *args, **kwargs)
-        self.people = ButtonGrid(self, columns, people, [str(i + 1) for i in range(columns)])
-        self.weapons = ButtonGrid(self, columns, weapons)
-        self.rooms = ButtonGrid(self, columns, rooms)
+        self.people = ButtonGrid(self, columns, game.deck.people(), [str(i + 1) for i in range(columns)])
+        self.weapons = ButtonGrid(self, columns, game.deck.weapons())
+        self.rooms = ButtonGrid(self, columns, game.deck.rooms())
 
         self.people.pack()
         self.weapons.pack(pady=10)
@@ -81,21 +82,20 @@ class CardDisplay(ttk.Frame):
                             (game.deck.rooms(), self.rooms)):
             for i, card in enumerate(cards):
                 cards_to_button_row[card] = grid.get_button_row(i)
-
         stat_map = game.analyzer.stats()
         for ind, player in enumerate(game.get_players()):
-            if player not in stat_map:
-                continue
-            stats = stat_map[player]
-            print(player)
-            print([card.type for card in stats.positives()])
-            print([card.name for card in stats.negatives()])
+            if player in stat_map:
+                stats = stat_map[player]
+                for card in stats.positives():
+                    cards_to_button_row[card][ind].set_status(TriStatusButton.Status.YES)
+                for card in stats.negatives():
+                    cards_to_button_row[card][ind].set_status(TriStatusButton.Status.NO)
 
 
 class ClueGui(ttk.Frame):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, game, **kwargs):
         ttk.Frame.__init__(self, *args, **kwargs)
-        self.card_display = CardDisplay(self, columns=4)
+        self.card_display = CardDisplay(self, columns=4, game=game)
         self.guess_list = ListChoice(self, width=100)
         self.guesses = GuessingFrame(self)
         self.names = Names(self, names=['Vince', 'Kristina', 'Vanessa', 'Cassandra'])
@@ -111,8 +111,8 @@ class ClueGui(ttk.Frame):
 
 class Clue:
     def __init__(self, parent=None):
-        self.gui = ClueGui(parent)
         self.game = pyclue.Game()
+        self.gui = ClueGui(parent, game=self.game)
 
     def on_new(self):
         widget = NewGameWidget(self.gui, game=self.game)
