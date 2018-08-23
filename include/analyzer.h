@@ -16,6 +16,8 @@ public:
     std::map<const Player*, Stats> get_stats() const;
 
 private:
-    void analyze_negatives(std::map<const Player *, Stats>& stats) const;
+    void analyze_negatives(std::map<const Player*, Stats>& stats) const;
+    void analyze_overrides(std::map<const Player*, Stats>& stats) const;
+    void analyze_num_cards(std::map<const Player*, Stats>& stats) const;
     const Game& m_game;
 };

@@ -16,49 +16,22 @@ std::map<const Player*, Stats> Analyzer::get_stats() const
                       std::make_tuple(&player),
                       std::make_tuple());
     }
-    for(auto& pair: m_game.positive_overrides)
-    {
-        for (auto& card: pair.second)
-        {
-            stats[pair.first].positives.insert(card);
-        }
-    }
-    for(auto& pair: m_game.negative_overrides)
-    {
-        for (auto& card: pair.second)
-        {
-            stats[pair.first].negatives.insert(card);
-        }
-    }
-    for (auto& guess: m_game.get_guesses())
-    {
-        if (guess.answer)
-        {
-            stats[guess.answerer].positives.insert(guess.answer);
-        }
-        for (auto& player: guess.skipped_players)
-        {
-            stats[player].negatives.insert(&guess.murderer);
-            stats[player].negatives.insert(&guess.weapon);
-            stats[player].negatives.insert(&guess.room);
-        }
-    }
-    for (auto& player: m_game.get_const_players())
-    {
-        auto& positives {stats[&player].positives};
-        auto& negatives {stats[&player].negatives};
-        if (static_cast<int>(positives.size()) >= player.num_cards)
-        {
-            for (auto& card: m_game.deck.get_all_cards())
-            {
-                if (positives.find(card) == positives.end())
-                {
-                    negatives.insert(card);
-                }
-            }
-        }
-    }
-    analyze_negatives(stats);
+    analyze_overrides(stats);
+//    for (auto& guess: m_game.get_guesses())
+//    {
+//        if (guess.answer)
+//        {
+//            stats[guess.answerer].positives.insert(guess.answer);
+//        }
+//        for (auto& player: guess.skipped_players)
+//        {
+//            stats[player].negatives.insert(&guess.murderer);
+//            stats[player].negatives.insert(&guess.weapon);
+//            stats[player].negatives.insert(&guess.room);
+//        }
+//    }
+    analyze_num_cards(stats);
+//    analyze_negatives(stats);
     return stats;
 }
 
@@ -77,6 +50,48 @@ void Analyzer::analyze_negatives(std::map<const Player *, Stats>& stats) const
                 stats[guess.answerer].positives.insert(&guess.weapon);
             } else if (!no_murderer and no_weapon and no_room) {
                 stats[guess.answerer].positives.insert(&guess.murderer);
+            }
+        }
+    }
+}
+
+void Analyzer::analyze_overrides(std::map<const Player*, Stats>& stats) const
+{
+
+    for(auto& pair: m_game.positive_overrides)
+    {
+        auto& set {stats[pair.first].positives};
+        std::copy(pair.second.begin(), pair.second.end(), std::inserter(set, set.begin()));
+        for(auto& player: m_game.get_const_players())
+        {
+            if (&player != pair.first)
+            {
+                auto& negative_set {stats[pair.first].positives};
+                std::copy(pair.second.begin(), pair.second.end(), std::inserter(negative_set, negative_set.begin()));
+            }
+        }
+    }
+    for(auto& pair: m_game.negative_overrides)
+    {
+        auto& set {stats[pair.first].negatives};
+        std::copy(pair.second.begin(), pair.second.end(), std::inserter(set, set.begin()));
+    }
+}
+
+void Analyzer::analyze_num_cards(std::map<const Player *, Stats> &stats) const
+{
+    for (auto& player: m_game.get_const_players())
+    {
+        auto& positives {stats[&player].positives};
+        auto& negatives {stats[&player].negatives};
+        if (static_cast<int>(positives.size()) >= player.num_cards)
+        {
+            for (auto& card: m_game.deck.get_all_cards())
+            {
+                if (positives.find(card) == positives.end())
+                {
+                    negatives.insert(card);
+                }
             }
         }
     }
