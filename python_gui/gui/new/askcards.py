@@ -7,15 +7,15 @@ from python_gui.gui.tristatusbutton import TriStatusButton
 
 
 class AskCards(ttk.Frame):
-    def __init__(self, *args, game, num_cards, **kwargs):
-        self.game = game
-
+    def __init__(self, *args, controller, num_cards, **kwargs):
+        self.controller = controller
         ttk.Frame.__init__(self, *args, **kwargs)
         self.num_cards = num_cards
         label = ttk.Label(self, text='Please select your cards', style='Subtitle.TLabel')
-        self.people = ButtonGrid(self, 1, [person.name for person in self.game.deck.people()])
-        self.weapons = ButtonGrid(self, 1, [weapon.name for weapon in self.game.deck.weapons()])
-        self.rooms = ButtonGrid(self, 1, [room.name for room in self.game.deck.rooms()])
+        deck = self.controller.deck()
+        self.people = ButtonGrid(self, 1, [person.name for person in deck.people()])
+        self.weapons = ButtonGrid(self, 1, [weapon.name for weapon in deck.weapons()])
+        self.rooms = ButtonGrid(self, 1, [room.name for room in deck.rooms()])
         self.button_confirm = ttk.Button(self, text='Confirm')
 
         def func(button):
@@ -34,9 +34,10 @@ class AskCards(ttk.Frame):
 
     def get_selected(self):
         card_list = []
-        pairs = [(self.game.deck.people(), self.people),
-                 (self.game.deck.weapons(), self.weapons),
-                 (self.game.deck.rooms(), self.rooms)]
+        deck = self.controller.deck()
+        pairs = [(deck.people(), self.people),
+                 (deck.weapons(), self.weapons),
+                 (deck.rooms(), self.rooms)]
         for cards, widget in pairs:
             for card, state in zip(cards, widget.get_statuses_from_column(0)):
 

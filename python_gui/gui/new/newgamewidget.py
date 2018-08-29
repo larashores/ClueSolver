@@ -10,16 +10,15 @@ from python_gui.gui.new.askcards import AskCards
 
 
 class NewGameWidget(tk.Toplevel):
-    def __init__(self, *args, game, **kwargs):
+    def __init__(self, *args, controller, **kwargs):
         tk.Toplevel.__init__(self, *args, **kwargs)
-        self.game = game
+        self.controller = controller
         self.wm_title('New Game Creation')
         self.wm_resizable(False, False)
         self.protocol('WM_DELETE_WINDOW')
         self.grab_set()
         self.frame = ttk.Frame(self)
         self.frame.pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)
-        self.close_command = lambda: None
 
         self.num_players_widget = AskNumPlayers(self.frame)
         self.num_players_widget.set_confirm_command(self.on_confirm_num_players)
@@ -55,7 +54,7 @@ class NewGameWidget(tk.Toplevel):
     def on_confirm_active_player(self):
         num_cards = self.ask_num_cards_widget.get_num_cards()[self.ask_active_player_widget.get_active_index()]
         self.ask_active_player_widget.destroy()
-        self.ask_cards_widget = AskCards(self.frame, game=self.game, num_cards=num_cards)
+        self.ask_cards_widget = AskCards(self.frame, controller=self.controller, num_cards=num_cards)
         self.ask_cards_widget.set_confirm_command(self.on_confirm_cards)
         self.ask_cards_widget.pack()
 
@@ -64,9 +63,10 @@ class NewGameWidget(tk.Toplevel):
         self.destroy()
 
         for name, card, in zip(self.ask_order_widget.get_choices(), self.ask_num_cards_widget.get_num_cards()):
-            self.game.add_player(name, card)
+            self.controller.add_player(name, card)
+        self.controller.signal_players_changed()
 
-        player = self.game.get_players()[self.ask_active_player_widget.get_active_index()]
+        player = self.controller.players()[self.ask_active_player_widget.get_active_index()]
         for card in self.ask_cards_widget.get_selected():
-            self.game.add_override(player, card, True)
-        self.close_command()
+            self.controller.add_override(player, card, True)
+        self.controller.signal_update_analytics()

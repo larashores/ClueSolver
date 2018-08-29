@@ -7,12 +7,13 @@ from python_gui.gui.tristatusbutton import TriStatusButton
 class ButtonGrid(ttk.Frame):
     def __init__(self, parent=None, columns=0, row_names=list(), column_names=list(), **kwargs):
         ttk.Frame.__init__(self, parent, **kwargs)
-        self._button_columns = [[] for _ in range(columns)]
+        self._button_columns = []
         self._widgets = []
         self._row_names = row_names
         self.regrid(columns, column_names)
 
     def regrid(self, columns, column_names=list()):
+        self._button_columns = [[] for _ in range(columns)]
         for widget in self._widgets:
             widget.destroy()
         for col in self._button_columns:

@@ -9,16 +9,15 @@ from python_gui.gui.buttongrid import ButtonGrid
 from python_gui.constants import people, weapons, rooms
 from python_gui.gui.listchoice import ListChoice
 from python_gui.gui.combolabel import ComboLabel
-from python_gui.gui.tristatusbutton import TriStatusButton
 from python_gui import constants
 
 import python_gui.pyclue as pyclue
 
 
 class ClueGui(ttk.Frame):
-    def __init__(self, *args, game, **kwargs):
+    def __init__(self, *args, controller, **kwargs):
         ttk.Frame.__init__(self, *args, **kwargs)
-        self.card_display = CardDisplay(self, columns=4, game=game)
+        self.card_display = CardDisplay(self, columns=4, controller=controller)
         self.guess_list = ListChoice(self, width=100)
         self.guesses = GuessWidget(self)
         self.names = NameWidget(self, names=['Vince', 'Kristina', 'Vanessa', 'Cassandra'])
@@ -33,14 +32,9 @@ class ClueGui(ttk.Frame):
 
 
 class Clue:
-    def __init__(self, parent=None):
-        self.game = pyclue.Game()
-        self.gui = ClueGui(parent, game=self.game)
+    def __init__(self, *args, controller, **kwargs):
+        self.controller = controller
+        self.gui = ClueGui(*args, **kwargs, controller=self.controller)
 
     def on_new(self):
-        widget = NewGameWidget(self.gui, game=self.game)
-        widget.set_close_command(self.on_close_new)
-
-    def on_close_new(self):
-        self.gui.card_display.regrid(len(self.game.get_players()))
-        self.gui.card_display.update_buttons(self.game)
+        widget = NewGameWidget(self.gui, controller=self.controller)
