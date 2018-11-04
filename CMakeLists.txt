@@ -31,7 +31,8 @@ set(HEADER_FILES include/game.h
                  include/cards/person.h
                  include/cards/weapon.h
                  include/cards/room.h
-                 include/analyzer.h)
+                 include/analyzer.h
+                 include/override.h)
 set(LIB_HEADER_FILES
                      include/python/cards/py_deck.h
                      include/python/py_guess.h

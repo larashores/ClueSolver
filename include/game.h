@@ -8,6 +8,7 @@
 #include "player.h"
 #include "stats.h"
 #include "analyzer.h"
+#include "override.h"
 
 class Game
 {
@@ -29,8 +30,7 @@ public:
     const Deck deck;
     const Analyzer analyzer;
 
-    std::map<const Player*, std::vector<const Card*>> positive_overrides;
-    std::map<const Player*, std::vector<const Card*>> negative_overrides;
+    std::map<const Player*, std::map<const Card*, Override>> overrides;
 
 private:
     const Player* m_active_player {nullptr};

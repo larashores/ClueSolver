@@ -1,6 +1,8 @@
+#include <algorithm>
 #include "../include/analyzer.h"
 
 #include "../include/game.h"
+#include "../include/override.h"
 
 Analyzer::Analyzer(const Game& game) :
     m_game{game}
@@ -58,23 +60,27 @@ void Analyzer::analyze_negatives(std::map<const Player *, Stats>& stats) const
 void Analyzer::analyze_overrides(std::map<const Player*, Stats>& stats) const
 {
 
-    for(auto& [player, cards]: m_game.positive_overrides)
+    for(auto& [player, card_map]: m_game.overrides)
     {
-        auto& set {stats[player].positives};
-        std::copy(cards.begin(), cards.end(), std::inserter(set, set.begin()));
-        for(auto& player2: m_game.get_const_players())
+        for (auto& [card, override_type]: card_map)
         {
-            if (&player2 != player)
+            switch (override_type)
             {
-                auto& negative_set {stats[&player2].negatives};
-                std::copy(cards.begin(), cards.end(), std::inserter(negative_set, negative_set.begin()));
+            case Override::POSITIVE:
+                stats[player].positives.insert(card);
+                for(auto& player2: m_game.get_const_players())
+                {
+                    if (&player2 != player)
+                    {
+                        stats[&player2].negatives.insert(card);
+                    }
+                }
+                break;
+            case Override::NEGATIVE:
+                stats[player].negatives.insert(card);
+                break;
             }
         }
-    }
-    for(auto& [player, cards]: m_game.negative_overrides)
-    {
-        auto& set {stats[player].negatives};
-        std::copy(cards.begin(), cards.end(), std::inserter(set, set.begin()));
     }
 }
 
