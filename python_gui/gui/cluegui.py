@@ -19,7 +19,7 @@ class ClueGui(ttk.Frame):
         ttk.Frame.__init__(self, *args, **kwargs)
         self.card_display = CardDisplay(self, columns=4, controller=controller)
         self.guess_list = ListChoice(self, width=100)
-        self.guesses = GuessWidget(self)
+        self.guesses = GuessWidget(self, controller=controller)
         self.names = NameWidget(self, names=['Vince', 'Kristina', 'Vanessa', 'Cassandra'])
 
         self.card_display.grid(column=1, row=1, rowspan=2)
