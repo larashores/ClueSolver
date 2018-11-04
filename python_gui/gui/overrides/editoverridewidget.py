@@ -10,8 +10,14 @@ class EditOverrideWidget(PopupWindow):
         PopupWindow.__init__(self, *args, **kwargs)
 
         self.ask_override_widget = AskOverrides(self.frame, controller=self.controller)
+        self.ask_override_widget.set_confirm_command(self.on_confirm_overrides)
         self.ask_override_widget.pack()
 
     def on_confirm_overrides(self):
         self.ask_override_widget.destroy()
-        pass
+        self.destroy()
+        self.controller.clear_overrides()
+        for player, override_list in self.ask_override_widget.get_selected().items():
+            for card, is_positive in override_list:
+                self.controller.add_override(player, card, is_positive)
+        self.controller.signal_update_analytics()

@@ -52,10 +52,11 @@ class AskCards(ttk.Frame):
 
         def confirm_func():
             for card in self.get_selected():
-                for player, cards in self.controller.positive_overrides().items():
-                    if card in cards:
-                        showwarning(title='Warning', message="Card '{}' already taken".format(card))
-                        return
+                for player, card_list in self.controller.overrides().items():
+                    for card2, is_positive in card_list:
+                        if card == card2 and is_positive:
+                            showwarning(title='Warning', message="Card '{}' already taken".format(card))
+                            return
             yeses = sum(get_statuses(self.people) + get_statuses(self.weapons) + get_statuses(self.rooms))
             if (self.num_cards is None and yeses < self.controller.available_cards()) or (yeses == self.num_cards):
                 func()

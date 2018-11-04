@@ -25,6 +25,9 @@ class Controller:
     def add_override(self, *args, **kwargs):
         self._game.add_override(*args, **kwargs)
 
+    def clear_overrides(self):
+        self._game.clear_overrides()
+
     def overrides(self):
         return self._game.overrides()
 

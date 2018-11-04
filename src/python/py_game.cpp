@@ -42,4 +42,9 @@ namespace python {
         return dict;
     }
 
+    void clear_overrides(Game& game)
+    {
+        game.overrides.clear();
+    }
+
 }  // namespace python

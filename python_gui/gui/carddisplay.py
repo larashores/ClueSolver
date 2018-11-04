@@ -37,7 +37,11 @@ class CardDisplay(ttk.Frame):
         for ind, player in enumerate(self.controller.players()):
             if player in stat_map:
                 stats = stat_map[player]
-                for card in stats.positives():
-                    cards_to_button_row[card][ind].set_status(TriStatusButton.Status.YES)
-                for card in stats.negatives():
-                    cards_to_button_row[card][ind].set_status(TriStatusButton.Status.NO)
+                for card in self.controller.deck().all_cards():
+                    if card in stats.positives():
+                        status = TriStatusButton.Status.YES
+                    elif card in stats.negatives():
+                        status = TriStatusButton.Status.NO
+                    else:
+                        status = TriStatusButton.Status.BLANK
+                    cards_to_button_row[card][ind].set_status(status)

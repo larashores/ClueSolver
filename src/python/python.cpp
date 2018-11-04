@@ -49,6 +49,7 @@ BOOST_PYTHON_MODULE(pyclue)
     PY::register_ptr_to_python<std::shared_ptr<const Room>>();
 
     PY::class_<Deck>("Deck")
+            .def("all_cards", &python::all_cards)
             .def("people", &python::people)
             .def("weapons", &python::weapons)
             .def("rooms", &python::rooms);
@@ -79,6 +80,7 @@ BOOST_PYTHON_MODULE(pyclue)
             .def("add_guess", &Game::add_guess)
             .def("add_override", &python::add_override)
             .def("overrides", &python::overrides)
+            .def("clear_overrides", &python::clear_overrides)
             .def("get_guesses", &python::get_guesses)
             .def("get_players", &python::get_players)
             .def("remaining_cards", &Game::get_remaining_cards)

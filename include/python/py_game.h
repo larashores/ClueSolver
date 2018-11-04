@@ -12,4 +12,5 @@ namespace python {
     PY::list get_players(Game& game);
     PY::dict overrides(Game& game);
     void add_override(Game& game, const Player* player, const Card* card, bool yes);
+    void clear_overrides(Game& game);
 }  // namespace python
