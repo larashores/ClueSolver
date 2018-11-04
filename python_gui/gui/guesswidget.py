@@ -69,17 +69,18 @@ class GuessWidget(ttk.Frame):
         answerer = self.answerer.get()
 
         if guesser and answerer:
+            skips = [player for player in self.controller.players()
+                     if player != self.guesser.get() and player != self.answerer.get()]
+            self.skip.set_values(skips)
+
             players = self.controller.players()
             ind = players.index(guesser) + 1
             end = players.index(answerer)
             self.skip.lbox.clear()
             while ind != end:
-                self.skip.lbox.append(players[ind])
+                self.skip.add_to_lbox(players[ind])
                 ind = (ind + 1) % len(players)
 
-        skips = [player for player in self.controller.players()
-                 if player != self.guesser.get() and player != self.answerer.get() and player not in self.skip.lbox]
-        self.skip.combo.set_values(skips)
 
     def on_players_changed(self):
         self.guesser.set_values(self.controller.players())
