@@ -12,8 +12,6 @@ from python_gui.gui.new.askorder import AskOrder
 class AddPlayerWidget(PopupWindow):
     def __init__(self, *args, **kwargs):
         PopupWindow.__init__(self, *args, **kwargs)
-        self.num_cards = -1
-
         self.player_name_widget = AskName(self.frame, controller=self.controller)
         self.player_name_widget.set_confirm_command(self.on_confirm_name)
         self.player_name_widget.pack()
@@ -39,16 +37,18 @@ class AddPlayerWidget(PopupWindow):
 
     def on_confirm_num_cards(self):
         self.ask_num_cards_widget.destroy()
-        self.num_cards = self.ask_num_cards_widget.get_num_cards()
+        self.controller.add_player(self.player_name_widget.get_name(), self.ask_num_cards_widget.get_num_cards())
         self.ask_order()
 
     def on_confirm_cards(self):
         self.ask_cards_widget.destroy()
-        self.num_cards = len(self.ask_cards_widget.get_selected())
+        player = self.controller.add_player(self.player_name_widget.get_name(),
+                                            len(self.ask_cards_widget.get_selected()))
+        for card in self.ask_cards_widget.get_selected():
+            self.controller.add_override(player, card, True)
         self.ask_order()
 
     def ask_order(self):
-        self.controller.add_player(self.player_name_widget.get_name(), self.num_cards)
         self.ask_order_widget = AskOrder(self.frame, self.controller.players())
         self.ask_order_widget.set_confirm_command(self.on_confirm_order)
         self.ask_order_widget.pack()
@@ -58,3 +58,4 @@ class AddPlayerWidget(PopupWindow):
         self.ask_order_widget.destroy()
         self.destroy()
         self.controller.signal_players_changed()
+        self.controller.signal_update_analytics()

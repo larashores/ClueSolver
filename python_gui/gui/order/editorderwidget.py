@@ -18,4 +18,4 @@ class EditOrderWidget(PopupWindow):
         self.destroy()
         self.controller.set_order(self.ask_order_widget.get_choices())
         self.controller.signal_players_changed()
-        pass
+        self.controller.signal_update_analytics()

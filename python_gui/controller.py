@@ -20,6 +20,7 @@ class Controller:
     def add_player(self, *args, **kwargs):
         self._game.add_player(*args, **kwargs)
         self._players.append(self._game.get_players()[-1])
+        return self._players[-1]
 
     def add_override(self, *args, **kwargs):
         self._game.add_override(*args, **kwargs)
