@@ -72,10 +72,13 @@ std::vector<Player*> Game::get_players()
 
 int Game::get_remaining_cards() const
 {
-    int start {deck.size()};
+    int start {deck.size() - 3};
     for (auto& player: m_players)
     {
-        start -= player.num_cards;
+        if (player.num_cards > 0)
+        {
+            start -= player.num_cards;
+        }
     }
     return start;
 }

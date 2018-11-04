@@ -29,5 +29,4 @@ class Controller:
         return len(self._game.get_players())
 
     def available_cards(self):
-        taken = sum([len(player.cards()) for player in self.players()])
-        return total_cards - taken - 3
+        return self._game.remaining_cards()

@@ -13,7 +13,7 @@ class AskNumCards(ttk.Frame):
         num_players = self.controller.num_players()
         from_ = 0
         to_ = self.controller.available_cards()
-        default = (total_cards - 3) // num_players if num_players else to_
+        default = ((total_cards - 3) // num_players) - 1 if num_players else to_
         default = default if default < to_ else to_
 
         self.var = tk.IntVar(self)
@@ -24,7 +24,7 @@ class AskNumCards(ttk.Frame):
         entry_frm = ttk.Frame(self)
         lbl = ttk.Label(entry_frm, text=name)
         entry = ttk.Spinbox(entry_frm, textvariable=self.var, justify=tk.CENTER, from_=from_, to_=to_)
-        self.var.set(default - 1)
+        self.var.set(default)
         int_validate(entry, limits=(from_, to_))
 
         question_lbl.pack()

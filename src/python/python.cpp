@@ -83,8 +83,6 @@ BOOST_PYTHON_MODULE(pyclue)
             .def("get_guesses", &python::get_guesses)
             .def("get_players", &python::get_players)
             .def("remaining_cards", &Game::get_remaining_cards)
-            .def("set_active_player", &Game::set_active_player)
-            .def("active_player", &Game::get_active_player, PY::return_internal_reference<>())
             .def_readonly("deck", &Game::deck)
             .def_readonly("analyzer", &Game::analyzer);
 
