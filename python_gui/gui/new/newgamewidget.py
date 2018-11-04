@@ -29,18 +29,22 @@ class NewGameWidget(PopupWindow):
 
     def on_confirm_names(self):
         self.ask_names_widget.destroy()
-        self.ask_order_widget = AskOrder(self.frame, names=self.ask_names_widget.get_names())
-        self.ask_order_widget.set_confirm_command(self.on_confirm_order)
-        self.ask_order_widget.pack()
-
-    def on_confirm_order(self):
-        self.ask_order_widget.gui.destroy()
-        self.ask_num_cards_widget = AskNumCards(self.frame, self.ask_order_widget.get_choices())
+        self.ask_num_cards_widget = AskNumCards(self.frame, self.ask_names_widget.get_names())
         self.ask_num_cards_widget.set_confirm_command(self.on_confirm_num_cards)
         self.ask_num_cards_widget.pack()
 
     def on_confirm_num_cards(self):
         self.ask_num_cards_widget.destroy()
+        for name, card, in zip(self.ask_names_widget.get_names(), self.ask_num_cards_widget.get_num_cards()):
+            self.controller.add_player(name, card)
+
+        self.ask_order_widget = AskOrder(self.frame, players=self.controller.players())
+        self.ask_order_widget.set_confirm_command(self.on_confirm_order)
+        self.ask_order_widget.pack()
+
+    def on_confirm_order(self):
+        self.ask_order_widget.gui.destroy()
+        self.controller.set_order(self.ask_order_widget.get_choices())
         self.ask_active_player_widget = AskActivePlayer(self.frame, names=self.ask_order_widget.get_choices())
         self.ask_active_player_widget.set_confirm_command(self.on_confirm_active_player)
         self.ask_active_player_widget.pack()
@@ -56,8 +60,6 @@ class NewGameWidget(PopupWindow):
         self.ask_cards_widget.destroy()
         self.destroy()
 
-        for name, card, in zip(self.ask_order_widget.get_choices(), self.ask_num_cards_widget.get_num_cards()):
-            self.controller.add_player(name, card)
         self.controller.signal_players_changed()
 
         player = self.controller.players()[self.ask_active_player_widget.get_active_index()]

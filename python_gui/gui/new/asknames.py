@@ -16,7 +16,7 @@ class AskNames(ttk.Frame):
             default = 'Player {}'.format(i+1)
             lbl = ttk.Label(self, text=default)
             entry = ttk.Entry(self, textvariable=var, justify=tk.CENTER)
-            vara.set(default)
+            var.set(default)
 
             lbl.grid(column=1, row=i+2, pady=5, padx=(0, 6), sticky=tk.E)
             entry.grid(column=2, row=i+2, pady=5, padx=(6, 0), sticky=tk.W)
