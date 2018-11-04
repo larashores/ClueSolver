@@ -31,15 +31,15 @@ class AskOrderGui(ttk.Frame):
 
 
 class AskOrder:
-    def __init__(self, parent=None, names=list()):
+    def __init__(self, parent=None, players=list()):
         self.gui = AskOrderGui(parent)
         self.gui.list_choice.lbox.bind('<Control-Up>', self._move_up)
         self.gui.list_choice.lbox.bind('<Control-Down>', self._move_down)
         self.gui.up.config(command=self._move_up)
         self.gui.down.config(command=self._move_down)
 
-        for name in names:
-            self.gui.list_choice.append(name)
+        for player in players:
+            self.gui.list_choice.append(player)
 
     def __getattribute__(self, item):
         try:

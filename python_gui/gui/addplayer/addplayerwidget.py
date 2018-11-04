@@ -55,13 +55,13 @@ class AddPlayerWidget(tk.Toplevel):
         self.ask_order()
 
     def ask_order(self):
-        names = [player.name for player in self.controller.players()] + [self.player_name_widget.get_name()]
-        self.ask_order_widget = AskOrder(self.frame, names)
+        self.controller.add_player(self.player_name_widget.get_name(), self.num_cards)
+        self.ask_order_widget = AskOrder(self.frame, self.controller.players())
         self.ask_order_widget.set_confirm_command(self.on_confirm_order)
         self.ask_order_widget.pack()
 
     def on_confirm_order(self):
+        self.controller.set_order(self.ask_order_widget.get_choices())
         self.ask_order_widget.destroy()
         self.destroy()
-        self.controller.add_player(self.player_name_widget.get_name(), self.num_cards)
         self.controller.signal_players_changed()

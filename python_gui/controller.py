@@ -10,8 +10,16 @@ class Controller:
         self.signal_update_analytics = Signal()
         self._game = Game()
 
+        self._players = []
+
+    def set_order(self, players):
+        if len(players) != self._game.get_players():
+            raise ValueError('Must include all players')
+        self._players = players
+
     def add_player(self, *args, **kwargs):
         self._game.add_player(*args, **kwargs)
+        self._players.append(self._game.get_players()[-1])
 
     def add_override(self, *args, **kwargs):
         self._game.add_override(*args, **kwargs)
@@ -23,10 +31,10 @@ class Controller:
         return self._game.deck
 
     def players(self):
-        return self._game.get_players()
+        return self._players
 
     def num_players(self):
-        return len(self._game.get_players())
+        return len(self._players)
 
     def available_cards(self):
         return self._game.remaining_cards()
