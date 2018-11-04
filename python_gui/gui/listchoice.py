@@ -85,6 +85,9 @@ class ListChoice:
         self._gui.signal_up.connect(self._up)
         self._gui.signal_down.connect(self._down)
 
+    def __len__(self):
+        return len(self._data)
+
     def __getattribute__(self, item):
         try:
             return object.__getattribute__(self, item)

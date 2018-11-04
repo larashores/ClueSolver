@@ -13,7 +13,7 @@ class Controller:
         self._players = []
 
     def set_order(self, players):
-        if len(players) != self._game.get_players():
+        if len(players) != len(self._game.get_players()):
             raise ValueError('Must include all players')
         self._players = players
 

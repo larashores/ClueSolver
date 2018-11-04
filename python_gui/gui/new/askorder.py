@@ -64,7 +64,7 @@ class AskOrder:
 
     def _move_down(self, event=None):
         ind = self.gui.list_choice.get_selection()
-        if ind is None or ind == len(self.gui.list_choice.lbox) - 1:
+        if ind is None or ind == len(self.gui.list_choice) - 1:
             return
         item = self.gui.list_choice[ind]
         self.gui.list_choice.pop(ind)

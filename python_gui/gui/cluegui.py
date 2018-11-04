@@ -8,6 +8,7 @@ from python_gui.gui.new.newgamewidget import NewGameWidget
 from python_gui.gui.addplayer.addplayerwidget import AddPlayerWidget
 from python_gui.gui.removeplayer.removeplayerwidget import RemovePlayerWidget
 from python_gui.gui.overrides.editoverridewidget import EditOverrideWidget
+from python_gui.gui.order.editorderwidget import EditOrderWidget
 from python_gui.gui.buttongrid import ButtonGrid
 from python_gui.constants import people, weapons, rooms
 from python_gui.gui.listchoice import ListChoice
@@ -61,3 +62,9 @@ class Clue:
             widget = EditOverrideWidget(self.gui, controller=self.controller)
         else:
             showwarning(title='Warning', message='No players to edit overrides for.')
+
+    def on_edit_order(self):
+        if self.controller.num_players() > 0:
+            widget = EditOrderWidget(self.gui, controller=self.controller)
+        else:
+            showwarning(title='Warning', message='No players to edit order for.')
