@@ -45,7 +45,10 @@ class Clue:
         widget = NewGameWidget(self.gui, controller=self.controller)
 
     def on_add_player(self):
-        widget = AddPlayerWidget(self.gui, controller=self.controller)
+        if self.controller.num_players() <= 8:
+            widget = AddPlayerWidget(self.gui, controller=self.controller)
+        else:
+            showwarning(title='Warning', message='Maximum number of players')
 
     def on_remove_player(self):
         if self.controller.num_players() > 0:
