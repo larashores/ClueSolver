@@ -10,6 +10,7 @@ class ClueMenu(tk.Menu):
         tk.Menu.__init__(self, *args, **kwargs)
 
         self.signal_new = Signal()
+        self.signal_add = Signal()
 
         file = tk.Menu(self, tearoff=0)
         file.add_command(label='New', accelerator='Ctrl+N', command=self.signal_new)
@@ -19,3 +20,7 @@ class ClueMenu(tk.Menu):
         file.add_separator()
         file.add_command(label='Exit', accelerator='Alt+F4')
         self.add_cascade(label='File', menu=file)
+
+        edit = tk.Menu(self, tearoff=0)
+        edit.add_command(label='Add Player', command=self.signal_add)
+        self.add_cascade(label='Edit', menu=edit)
