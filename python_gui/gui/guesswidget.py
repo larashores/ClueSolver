@@ -21,7 +21,7 @@ class GuessWidget(ttk.Frame):
         self.confirm = ttk.Button(self, text='Confirm')
 
         for combo in self.guesser, self.answerer:
-            combo._var.trace('w', lambda var, ind, op: self.update_skips)
+            combo._var.trace('w', lambda var, ind, op: self.update_skips())
 
         for combo in self.guesser, self.character, self.weapon, self.location, self.answerer, self.shown:
             combo.state(['readonly'])
@@ -50,19 +50,15 @@ class GuessWidget(ttk.Frame):
         room = self.location.get()
 
         answerers = [player for player in self.controller.players() if player != self.guesser.get()]
-        skips = [player for player in self.controller.players()
-                      if player != self.guesser.get() and player != self.answerer.get()]
         self.answerer.set_values([' '] + answerers)
-        self.skip.combo.set_values(skips)
         self.shown.set_values([murderer, weapon, room])
         for combo in self.shown, self.answerer, self.skip.combo:
             if combo.index() == -1:
                 combo.set("")
 
-        for widget in self.guesser, self.character, self.weapon, self.location, self.answerer, self.shown, \
-                      self.skip, self.confirm:
+        for widget in self.guesser, self.character, self.weapon, self.location, self.answerer, self.shown, self.confirm:
             widget.state(['!disabled' if self.guesser.values() else 'disabled'])
-
+        self.skip.state(['!disabled' if self.answerer.get() and self.guesser.get() else 'disabled'])
         self.confirm.state(['!disabled'
                             if guesser and murderer and weapon and room and self.shown.get()
                             else 'disabled'])
@@ -71,6 +67,19 @@ class GuessWidget(ttk.Frame):
     def update_skips(self):
         guesser = self.guesser.get()
         answerer = self.answerer.get()
+
+        if guesser and answerer:
+            players = self.controller.players()
+            ind = players.index(guesser) + 1
+            end = players.index(answerer)
+            self.skip.lbox.clear()
+            while ind != end:
+                self.skip.lbox.append(players[ind])
+                ind = (ind + 1) % len(players)
+
+        skips = [player for player in self.controller.players()
+                 if player != self.guesser.get() and player != self.answerer.get() and player not in self.skip.lbox]
+        self.skip.combo.set_values(skips)
 
     def on_players_changed(self):
         self.guesser.set_values(self.controller.players())
