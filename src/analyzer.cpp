@@ -90,7 +90,7 @@ void Analyzer::analyze_num_cards(std::map<const Player *, Stats> &stats) const
     {
         auto& positives {stats[&player].positives};
         auto& negatives {stats[&player].negatives};
-        if (static_cast<int>(positives.size()) >= player.num_cards)
+        if (player.num_cards > 0 and static_cast<int>(positives.size()) >= player.num_cards)
         {
             for (auto& card: m_game.deck.get_all_cards())
             {

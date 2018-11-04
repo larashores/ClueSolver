@@ -25,6 +25,9 @@ class Controller:
     def add_override(self, *args, **kwargs):
         self._game.add_override(*args, **kwargs)
 
+    def positive_overrides(self):
+        return self._game.positive_overrides()
+
     def stats(self, *args, **kwargs):
         return self._game.analyzer.stats(*args, **kwargs)
 

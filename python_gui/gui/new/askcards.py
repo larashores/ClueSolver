@@ -40,7 +40,6 @@ class AskCards(ttk.Frame):
                  (deck.rooms(), self.rooms)]
         for cards, widget in pairs:
             for card, state in zip(cards, widget.get_statuses_from_column(0)):
-
                 if state == TriStatusButton.Status.YES:
                     card_list.append(card)
 
@@ -52,10 +51,13 @@ class AskCards(ttk.Frame):
                     for status in button_grid.get_statuses_from_column(0)]
 
         def confirm_func():
-            yeses = sum(get_statuses(self.people)) + sum(get_statuses(self.weapons)) + sum(get_statuses(self.rooms))
-            if self.num_cards is None and yeses < self.controller.available_cards():
-                func()
-            elif yeses == self.num_cards:
+            for card in self.get_selected():
+                for player, cards in self.controller.positive_overrides().items():
+                    if card in cards:
+                        showwarning(title='Warning', message="Card '{}' already taken".format(card))
+                        return
+            yeses = sum(get_statuses(self.people) + get_statuses(self.weapons) + get_statuses(self.rooms))
+            if (self.num_cards is None and yeses < self.controller.available_cards()) or (yeses == self.num_cards):
                 func()
             else:
                 showwarning(title='Warning', message='Please select {} cards.'.format(self.num_cards))
