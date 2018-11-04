@@ -6,6 +6,7 @@ from python_gui.gui.namewidget import NameWidget
 from python_gui.gui.carddisplay import CardDisplay
 from python_gui.gui.new.newgamewidget import NewGameWidget
 from python_gui.gui.addplayer.addplayerwidget import AddPlayerWidget
+from python_gui.gui.removeplayer.removeplayerwidget import RemovePlayerWidget
 from python_gui.gui.buttongrid import ButtonGrid
 from python_gui.constants import people, weapons, rooms
 from python_gui.gui.listchoice import ListChoice
@@ -13,6 +14,8 @@ from python_gui.gui.combolabel import ComboLabel
 from python_gui import constants
 
 import python_gui.pyclue as pyclue
+
+from tkinter.messagebox import showwarning
 
 
 class ClueGui(ttk.Frame):
@@ -42,3 +45,9 @@ class Clue:
 
     def on_add_player(self):
         widget = AddPlayerWidget(self.gui, controller=self.controller)
+
+    def on_remove_player(self):
+        if self.controller.num_players() > 0:
+            widget = RemovePlayerWidget(self.gui, controller=self.controller)
+        else:
+            showwarning(title='Warning', message='No players to delete')
