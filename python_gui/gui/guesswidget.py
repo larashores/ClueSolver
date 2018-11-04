@@ -1,6 +1,7 @@
 from tkinter import ttk
 import tkinter as tk
 
+from python_gui.gui.skipwidget import SkipWidget
 from python_gui.gui.combolabel import ComboLabel
 from python_gui import constants
 
@@ -15,7 +16,11 @@ class GuessWidget(ttk.Frame):
         self.location = ComboLabel(self, text='Room?', values=constants.rooms)
         self.answerer = ComboLabel(self, text='Answering Player?')
         self.shown = ComboLabel(self, text='Card Shown?')
+        self.skip = SkipWidget(self, controller=controller)
         self.confirm = ttk.Button(self, text='Confirm')
+
+        for combo in self.guesser, self.answerer:
+            combo._var.trace('w', lambda var, ind, op: self.update_skips)
 
         for combo in self.guesser, self.character, self.weapon, self.location, self.answerer, self.shown:
             combo.state(['readonly'])
@@ -29,6 +34,9 @@ class GuessWidget(ttk.Frame):
         self.location.pack()
         self.answerer.pack()
         self.shown.pack()
+        ttk.Separator(self, orient=tk.HORIZONTAL).pack(expand=tk.YES, fill=tk.X, pady=(6, 0))
+        self.skip.pack()
+        ttk.Separator(self, orient=tk.HORIZONTAL).pack(expand=tk.YES, fill=tk.X, pady=(6, 0))
         self.confirm.pack(pady=10)
 
         self.controller.signal_players_changed.connect(self.on_players_changed)
@@ -40,12 +48,18 @@ class GuessWidget(ttk.Frame):
         weapon = self.weapon.get()
         room = self.location.get()
 
+        answer_names = [player.name for player in self.controller.players() if player.name != self.guesser.get()]
+        skip_names = [player.name for player in self.controller.players()
+                      if player.name != self.guesser.get() and player.name != self.answerer.get()]
+        self.answerer.set_values([' '] + answer_names)
+        self.skip.combo.set_values(skip_names)
         self.shown.set_values([murderer, weapon, room])
-        ind = self.shown.index()
-        if ind == -1:
-            self.shown.set("")
+        for combo in self.shown, self.answerer, self.skip.combo:
+            if combo.index() == -1:
+                combo.set("")
 
-        for widget in self.guesser, self.character, self.weapon, self.location, self.answerer, self.shown, self.confirm:
+        for widget in self.guesser, self.character, self.weapon, self.location, self.answerer, self.shown, \
+                      self.skip, self.confirm:
             widget.state(['!disabled' if self.guesser.values() else 'disabled'])
 
         self.confirm.state(['!disabled'
@@ -53,8 +67,11 @@ class GuessWidget(ttk.Frame):
                             else 'disabled'])
         self.shown.state(['!disabled' if murderer and weapon and room else 'disabled'])
 
+    def update_skips(self):
+        guesser = self.guesser.get()
+        answerer = self.answerer.get()
+
     def on_players_changed(self):
         names = [player.name for player in self.controller.players()]
         self.guesser.set_values(names)
-        self.answerer.set_values([' '] + names)
         self.validate_state()
