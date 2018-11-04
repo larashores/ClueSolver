@@ -28,3 +28,9 @@ class ComboLabel(ttk.Frame):
 
     def get(self):
         return self._var.get()
+
+    def set(self, text):
+        self._var.set(text)
+
+    def index(self):
+        return self._combo.current()

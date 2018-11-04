@@ -40,17 +40,21 @@ class GuessWidget(ttk.Frame):
         weapon = self.weapon.get()
         room = self.location.get()
 
+        self.shown.set_values([murderer, weapon, room])
+        ind = self.shown.index()
+        if ind == -1:
+            self.shown.set("")
+
         for widget in self.guesser, self.character, self.weapon, self.location, self.answerer, self.shown, self.confirm:
             widget.state(['!disabled' if self.guesser.values() else 'disabled'])
 
         self.confirm.state(['!disabled'
-                            if murderer and weapon and room and guesser
+                            if guesser and murderer and weapon and room and self.shown.get()
                             else 'disabled'])
         self.shown.state(['!disabled' if murderer and weapon and room else 'disabled'])
-        self.shown.set_values([murderer, weapon, room])
 
     def on_players_changed(self):
         names = [player.name for player in self.controller.players()]
         self.guesser.set_values(names)
-        self.answerer.set_values(names)
+        self.answerer.set_values([' '] + names)
         self.validate_state()
