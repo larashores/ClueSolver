@@ -11,7 +11,7 @@ class AskCards(ttk.Frame):
         self.controller = controller
         ttk.Frame.__init__(self, *args, **kwargs)
         self.num_cards = num_cards
-        label = ttk.Label(self, text='Please select your cards', style='Subtitle.TLabel')
+        label = ttk.Label(self, text='Please select the cards', style='Subtitle.TLabel')
         deck = self.controller.deck()
         self.people = ButtonGrid(self, 1, [person.name for person in deck.people()])
         self.weapons = ButtonGrid(self, 1, [weapon.name for weapon in deck.weapons()])
@@ -53,7 +53,9 @@ class AskCards(ttk.Frame):
 
         def confirm_func():
             yeses = sum(get_statuses(self.people)) + sum(get_statuses(self.weapons)) + sum(get_statuses(self.rooms))
-            if yeses == self.num_cards:
+            if self.num_cards is None and yeses < self.controller.available_cards():
+                func()
+            elif yeses == self.num_cards:
                 func()
             else:
                 showwarning(title='Warning', message='Please select {} cards.'.format(self.num_cards))

@@ -1,6 +1,8 @@
 from python_gui.signal import Signal
 from python_gui.pyclue import Game
 
+from python_gui.constants import total_cards
+
 class Controller:
     def __init__(self):
         self.signal_players_changed = Signal()
@@ -25,3 +27,7 @@ class Controller:
 
     def num_players(self):
         return len(self._game.get_players())
+
+    def available_cards(self):
+        taken = sum([len(player.cards()) for player in self.players()])
+        return total_cards - taken - 3
