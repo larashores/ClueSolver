@@ -7,6 +7,7 @@ from python_gui.gui.carddisplay import CardDisplay
 from python_gui.gui.new.newgamewidget import NewGameWidget
 from python_gui.gui.addplayer.addplayerwidget import AddPlayerWidget
 from python_gui.gui.removeplayer.removeplayerwidget import RemovePlayerWidget
+from python_gui.gui.overrides.editoverridewidget import EditOverrideWidget
 from python_gui.gui.buttongrid import ButtonGrid
 from python_gui.constants import people, weapons, rooms
 from python_gui.gui.listchoice import ListChoice
@@ -50,4 +51,10 @@ class Clue:
         if self.controller.num_players() > 0:
             widget = RemovePlayerWidget(self.gui, controller=self.controller)
         else:
-            showwarning(title='Warning', message='No players to delete')
+            showwarning(title='Warning', message='No players to delete.')
+
+    def on_edit_overrides(self):
+        if self.controller.num_players() > 0:
+            widget = EditOverrideWidget(self.gui, controller=self.controller)
+        else:
+            showwarning(title='Warning', message='No players to edit overrides for.')

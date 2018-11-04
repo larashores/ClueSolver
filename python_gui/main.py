@@ -17,6 +17,7 @@ def main():
     menu.signal_new.connect(clue.on_new)
     menu.signal_add.connect(clue.on_add_player)
     menu.signal_remove.connect(clue.on_remove_player)
+    menu.signal_edit_overrides.connect(clue.on_edit_overrides)
 
     clue.gui.pack(expand=tk.YES, fill=tk.BOTH)
     root.mainloop()
