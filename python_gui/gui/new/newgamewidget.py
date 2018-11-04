@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+from python_gui.gui.popupwindow import PopupWindow
 from python_gui.gui.new.askorder import AskOrder
 from python_gui.gui.new.asknumplayers import AskNumPlayers
 from python_gui.gui.new.asknames import AskNames
@@ -9,16 +10,9 @@ from python_gui.gui.new.askactiveplayer import AskActivePlayer
 from python_gui.gui.new.askcards import AskCards
 
 
-class NewGameWidget(tk.Toplevel):
-    def __init__(self, *args, controller, **kwargs):
-        tk.Toplevel.__init__(self, *args, **kwargs)
-        self.controller = controller
-        self.wm_title('New Game Creation')
-        self.wm_resizable(False, False)
-        self.protocol('WM_DELETE_WINDOW')
-        self.grab_set()
-        self.frame = ttk.Frame(self)
-        self.frame.pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)
+class NewGameWidget(PopupWindow):
+    def __init__(self, *args, **kwargs):
+        PopupWindow.__init__(self, *args, **kwargs)
 
         self.num_players_widget = AskNumPlayers(self.frame)
         self.num_players_widget.set_confirm_command(self.on_confirm_num_players)
