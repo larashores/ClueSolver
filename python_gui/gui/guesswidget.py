@@ -9,11 +9,12 @@ class GuessWidget(ttk.Frame):
     def __init__(self, *args, controller, **kwargs):
         ttk.Frame.__init__(self, *args, **kwargs)
         self.controller = controller
+        deck = self.controller.deck()
         label = ttk.Label(self, text='Make Suggestion', style='Subtitle.TLabel')
         self.guesser = ComboLabel(self, text='Guessing Player?')
-        self.character = ComboLabel(self, text='Murderer?', values=constants.people)
-        self.weapon = ComboLabel(self, text='Weapon?', values=constants.weapons)
-        self.location = ComboLabel(self, text='Room?', values=constants.rooms)
+        self.character = ComboLabel(self, text='Murderer?', values=deck.people())
+        self.weapon = ComboLabel(self, text='Weapon?', values=deck.weapons())
+        self.location = ComboLabel(self, text='Room?', values=deck.rooms())
         self.answerer = ComboLabel(self, text='Answering Player?')
         self.shown = ComboLabel(self, text='Card Shown?')
         self.skip = SkipWidget(self, controller=controller)
@@ -48,11 +49,11 @@ class GuessWidget(ttk.Frame):
         weapon = self.weapon.get()
         room = self.location.get()
 
-        answer_names = [player.name for player in self.controller.players() if player.name != self.guesser.get()]
-        skip_names = [player.name for player in self.controller.players()
-                      if player.name != self.guesser.get() and player.name != self.answerer.get()]
-        self.answerer.set_values([' '] + answer_names)
-        self.skip.combo.set_values(skip_names)
+        answerers = [player for player in self.controller.players() if player != self.guesser.get()]
+        skips = [player for player in self.controller.players()
+                      if player != self.guesser.get() and player != self.answerer.get()]
+        self.answerer.set_values([' '] + answerers)
+        self.skip.combo.set_values(skips)
         self.shown.set_values([murderer, weapon, room])
         for combo in self.shown, self.answerer, self.skip.combo:
             if combo.index() == -1:
@@ -72,6 +73,5 @@ class GuessWidget(ttk.Frame):
         answerer = self.answerer.get()
 
     def on_players_changed(self):
-        names = [player.name for player in self.controller.players()]
-        self.guesser.set_values(names)
+        self.guesser.set_values(self.controller.players())
         self.validate_state()

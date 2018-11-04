@@ -27,7 +27,11 @@ class ComboLabel(ttk.Frame):
         return ttk.Frame.state(self, statespec)
 
     def get(self):
-        return self._var.get()
+        index = self.index()
+        if index != -1:
+            return self._values[index]
+        else:
+            return self._var.get()
 
     def set(self, text):
         self._var.set(text)
