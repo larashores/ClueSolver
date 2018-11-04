@@ -36,11 +36,9 @@ class AskOverrides(ttk.Frame):
                             (deck.rooms(), self.display.rooms)):
             for i, card in enumerate(cards):
                 cards_to_button_row[card] = grid.get_button_row(i)
-        for ind, player in enumerate(self.controller.positive_overrides()):
-            cards = self.controller.positive_overrides()[player]
-            for card in cards:
-                cards_to_button_row[card][ind].set_status(TriStatusButton.Status.YES)
-        for ind, player in enumerate(self.controller.negative_overrides()):
-            cards = self.controller.negative_overrides()[player]
-            for card in cards:
-                cards_to_button_row[card][ind].set_status(TriStatusButton.Status.NO)
+        for ind, player in enumerate(self.controller.overrides()):
+            override_list = self.controller.overrides()[player]
+            for card, is_positive in override_list:
+                cards_to_button_row[card][ind].set_status(TriStatusButton.Status.YES
+                                                          if is_positive
+                                                          else TriStatusButton.Status.NO)

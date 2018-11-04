@@ -26,7 +26,7 @@ namespace python {
         game.overrides[player][card] = (yes ? Override::POSITIVE : Override::NEGATIVE);
     }
 
-    PY::dict positive_overrides(Game& game)
+    PY::dict overrides(Game& game)
     {
         boost::python::dict dict;
         for(auto& [player, card_map]: game.overrides)
@@ -34,28 +34,8 @@ namespace python {
             boost::python::list list;
             for(auto& [card, override_type]: card_map)
             {
-                if (override_type == Override::POSITIVE)
-                {
-                    list.append(std::shared_ptr<const Card>(card, [=](auto){}));
-                }
-            }
-            dict[std::shared_ptr<const Player>(player, [=](auto){})] = list;
-        }
-        return dict;
-    }
-
-    PY::dict negative_overrides(Game& game)
-    {
-        boost::python::dict dict;
-        for(auto& [player, card_map]: game.overrides)
-        {
-            boost::python::list list;
-            for(auto& [card, override_type]: card_map)
-            {
-                if (override_type == Override::NEGATIVE)
-                {
-                    list.append(std::shared_ptr<const Card>(card, [=](auto){}));
-                }
+                list.append(PY::make_tuple(std::shared_ptr<const Card>(card, [=](auto){}),
+                                           override_type == Override::POSITIVE));
             }
             dict[std::shared_ptr<const Player>(player, [=](auto){})] = list;
         }
