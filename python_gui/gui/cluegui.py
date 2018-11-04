@@ -28,7 +28,7 @@ class ClueGui(ttk.Frame):
         self.guesses = GuessWidget(self, controller=controller)
         self.names = NameWidget(self, controller=controller)
 
-        self.card_display.grid(column=1, row=1, rowspan=2)
+        self.card_display.grid(column=1, row=1, rowspan=2, sticky=tk.N)
 
         self.names.grid(column=2, row=1)
         self.guess_list.grid(column=2, row=2, sticky=(tk.N + tk.S + tk.E + tk.W))

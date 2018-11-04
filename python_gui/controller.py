@@ -28,6 +28,9 @@ class Controller:
     def positive_overrides(self):
         return self._game.positive_overrides()
 
+    def negative_overrides(self):
+        return self._game.negative_overrides()
+
     def stats(self, *args, **kwargs):
         return self._game.analyzer.stats(*args, **kwargs)
 

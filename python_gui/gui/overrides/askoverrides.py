@@ -1,4 +1,5 @@
 from python_gui.gui.carddisplay import CardDisplay
+from python_gui.gui.tristatusbutton import TriStatusButton
 
 import tkinter as tk
 from tkinter import ttk
@@ -12,3 +13,34 @@ class AskOverrides(ttk.Frame):
 
         self.display.pack()
         self.button_confirm.pack(pady=(5, 0))
+
+        self.initial_buttons()
+
+        def func(button):
+            if button.get_status() == TriStatusButton.Status.BLANK:
+                status = TriStatusButton.Status.YES
+            elif button.get_status() == TriStatusButton.Status.YES:
+                status = TriStatusButton.Status.NO
+            elif button.get_status() == TriStatusButton.Status.NO:
+                status = TriStatusButton.Status.BLANK
+            button.set_status(status)
+
+        for button_grid in self.display.people, self.display.weapons, self.display.rooms:
+            button_grid.set_button_command(func)
+
+    def initial_buttons(self):
+        cards_to_button_row = {}
+        deck = self.controller.deck()
+        for cards, grid in ((deck.people(), self.display.people),
+                            (deck.weapons(), self.display.weapons),
+                            (deck.rooms(), self.display.rooms)):
+            for i, card in enumerate(cards):
+                cards_to_button_row[card] = grid.get_button_row(i)
+        for ind, player in enumerate(self.controller.positive_overrides()):
+            cards = self.controller.positive_overrides()[player]
+            for card in cards:
+                cards_to_button_row[card][ind].set_status(TriStatusButton.Status.YES)
+        for ind, player in enumerate(self.controller.negative_overrides()):
+            cards = self.controller.negative_overrides()[player]
+            for card in cards:
+                cards_to_button_row[card][ind].set_status(TriStatusButton.Status.NO)
