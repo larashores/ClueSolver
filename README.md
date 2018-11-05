@@ -1,7 +1,7 @@
 # ClueSolver
 C++ and Python library and GUI for solving the board game Clue
 
-This project was an attempt to figure out how to use Boost-Python to create a Python API in C++. The C++ library was created completely indepently from the Python. The C++ API does not need any Boost facilities to run. Wrapper funcions were created as needed for the Python bindings, demonstrating that an API not developed for use in Python could be directly adapted with a little effort.
+This project was an attempt to figure out how to use Boost-Python to create a Python API in C++. The C++ library was created completely indepently from the Python. The C++ API does not need any Boost facilities to run. Wrapper funcions were created as needed for the Python bindings, demonstrating that an API not developed for use in Python could be directly adapted with a little effort. For more information on getting Boost Python setup with Windows, check out [boost_setup.md](https://github.com/vinceshores/ClueSolver/blob/master/boost_setup.md)
 
 A Python GUI was created with tkinter to demonstrate use of the Python API. The program takes in guesses to the board game Clue and displays all info that can be deduced from those guesess. It uses these five methods:
 1. Cards can be manually proved or disproved from any player. This is the case if it is your card or you know the card from some other means (such as if a card is open to anyone to give ever player the same amount of cards).
