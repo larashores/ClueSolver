@@ -16,7 +16,7 @@ public:
     Game();
 
     void add_player(const std::string& name, int num_cards);
-    void add_guess(const Player& guessor, const Player* answerer,
+    void add_guess(const Player& guessor, const Player* answerer, const std::vector<Player*> skipped,
                    const Person& murderer, const Weapon& weapon, const Room& room,
                    const Card* card = nullptr);
     std::vector<Guess> get_guesses() const;

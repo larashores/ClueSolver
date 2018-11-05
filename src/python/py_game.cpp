@@ -52,4 +52,17 @@ namespace python {
         game.overrides.clear();
     }
 
+    void add_guess(Game& game, const Player& guessor, const Player* answerer, PY::list skipped,
+                   const Person& murderer, const Weapon& weapon, const Room& room,
+                   const Card* card)
+    {
+        std::vector<Player*> dont_haves;
+        for (int i = 0; i < PY::len(skipped); i++)
+        {
+            dont_haves.push_back(PY::extract<Player*>(skipped[i]));
+        }
+        game.add_guess(guessor, answerer, dont_haves, murderer, weapon, room, card);
+    }
+
+
 }  // namespace python

@@ -19,6 +19,15 @@ std::map<const Player*, Stats> Analyzer::get_stats() const
                       std::make_tuple());
     }
     analyze_overrides(stats);
+    analyze_guesses(stats);
+    analyze_num_cards(stats);
+//    analyze_negatives(stats);
+    return stats;
+}
+
+
+void Analyzer::analyze_guesses(std::map<const Player *, Stats>& stats) const
+{
 //    for (auto& guess: m_game.get_guesses())
 //    {
 //        if (guess.answer)
@@ -32,9 +41,6 @@ std::map<const Player*, Stats> Analyzer::get_stats() const
 //            stats[player].negatives.insert(&guess.room);
 //        }
 //    }
-    analyze_num_cards(stats);
-//    analyze_negatives(stats);
-    return stats;
 }
 
 void Analyzer::analyze_negatives(std::map<const Player *, Stats>& stats) const
@@ -56,6 +62,8 @@ void Analyzer::analyze_negatives(std::map<const Player *, Stats>& stats) const
         }
     }
 }
+
+
 
 void Analyzer::analyze_overrides(std::map<const Player*, Stats>& stats) const
 {

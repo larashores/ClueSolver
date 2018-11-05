@@ -89,6 +89,7 @@ void add_guess(Game& game)
     }
     game.add_guess(**guess_it,
                    answerer_ptr,
+                   {},
                    game.deck.people[person - 1],
                    game.deck.weapons[weapon - 1],
                    game.deck.rooms[room - 1], card);

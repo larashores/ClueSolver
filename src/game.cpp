@@ -19,28 +19,11 @@ void Game::add_player(const std::string& name, int num_cards)
     m_players.emplace_back(name, num_cards);
 }
 
-void Game::add_guess(const Player& guessor, const Player* answerer,
+void Game::add_guess(const Player& guessor, const Player* answerer, const std::vector<Player*> skipped,
                      const Person& murderer, const Weapon& weapon, const Room& room,
                      const Card* card)
 {
-    std::vector<Player*> dont_haves;
-    if (answerer)
-    {
-        auto it {std::find_if(m_players.begin(), m_players.end(), [&](Player& player){return &player == &guessor;})};
-        while (true)
-        {
-            it++;
-            it = it == m_players.end() ? m_players.begin() : it;
-            if (&(*it) != &guessor and &(*it) != answerer)
-            {
-                dont_haves.push_back(&*(it));
-            } else
-            {
-                break;
-            }
-        }
-    }
-    m_guesses.emplace_back(guessor, answerer, murderer, weapon, room, dont_haves, card);
+    m_guesses.emplace_back(guessor, answerer, murderer, weapon, room, skipped, card);
 }
 
 void Game::set_active_player(const Player& player)

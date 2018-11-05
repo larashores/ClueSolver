@@ -25,5 +25,11 @@ Guess::operator std::string() const
     {
         stream << ", Card Shown: " << answer->name;
     }
+    stream << ", Skipped Players: [";
+    for (auto& player: skipped_players)
+    {
+        stream << player->name << ", ";
+    }
+    stream << "]";
     return stream.str();
 }

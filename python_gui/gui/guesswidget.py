@@ -88,11 +88,12 @@ class GuessWidget(ttk.Frame):
     def on_guess(self):
         guesser = self.guesser.get()
         answer = self.answerer.get() if self.answerer.get() else None
+        skipped = [player for player in self.skip.lbox]
         murderer = self.character.get()
         weapon = self.weapon.get()
         room = self.location.get()
         card = self.shown.get() if self.shown.get() else None
-        self.controller.add_guess(guesser, answer, murderer, weapon, room, card)
+        self.controller.add_guess(guesser, answer, skipped, murderer, weapon, room, card)
         self.controller.signal_update_analytics()
 
         for combo in self.guesser, self.answerer, self.character, self.weapon, self.location, self.shown:

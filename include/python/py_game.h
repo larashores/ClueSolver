@@ -13,4 +13,7 @@ namespace python {
     PY::dict overrides(Game& game);
     void add_override(Game& game, const Player* player, const Card* card, bool yes);
     void clear_overrides(Game& game);
+    void add_guess(Game& game, const Player& guessor, const Player* answerer, PY::list skipped,
+                   const Person& murderer, const Weapon& weapon, const Room& room,
+                   const Card* card = nullptr);
 }  // namespace python

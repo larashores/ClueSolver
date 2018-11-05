@@ -80,7 +80,7 @@ BOOST_PYTHON_MODULE(pyclue)
 
     PY::class_<Game, boost::noncopyable>("Game")
             .def("add_player", &Game::add_player)
-            .def("add_guess", &Game::add_guess)
+            .def("add_guess", &python::add_guess)
             .def("add_override", &python::add_override)
             .def("overrides", &python::overrides)
             .def("clear_overrides", &python::clear_overrides)
