@@ -19,7 +19,8 @@ public:
     void add_guess(const Player& guessor, const Player* answerer, const std::vector<Player*> skipped,
                    const Person& murderer, const Weapon& weapon, const Room& room,
                    const Card* card = nullptr);
-    std::vector<Guess> get_guesses() const;
+    const std::vector<Guess>& get_const_guesses() const;
+    std::vector<Guess>& get_guesses();
     const std::list<Player>& get_const_players() const;
     std::vector<Player*> get_players();
     int get_remaining_cards() const;

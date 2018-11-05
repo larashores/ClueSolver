@@ -35,8 +35,13 @@ const Player* Game::get_active_player() const
 {
     return m_active_player;
 }
+const std::vector<Guess>& Game::get_const_guesses() const
+{
+    return m_guesses;
+}
 
-std::vector<Guess> Game::get_guesses() const
+
+std::vector<Guess>& Game::get_guesses()
 {
     return m_guesses;
 }

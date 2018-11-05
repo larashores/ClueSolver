@@ -28,24 +28,24 @@ std::map<const Player*, Stats> Analyzer::get_stats() const
 
 void Analyzer::analyze_guesses(std::map<const Player *, Stats>& stats) const
 {
-//    for (auto& guess: m_game.get_guesses())
-//    {
-//        if (guess.answer)
-//        {
-//            stats[guess.answerer].positives.insert(guess.answer);
-//        }
-//        for (auto& player: guess.skipped_players)
-//        {
-//            stats[player].negatives.insert(&guess.murderer);
-//            stats[player].negatives.insert(&guess.weapon);
-//            stats[player].negatives.insert(&guess.room);
-//        }
-//    }
+    for (auto& guess: m_game.get_const_guesses())
+    {
+        if (guess.answer)
+        {
+            stats[guess.answerer].positives.insert(guess.answer);
+        }
+        for (auto& player: guess.skipped_players)
+        {
+            stats[player].negatives.insert(&guess.murderer);
+            stats[player].negatives.insert(&guess.weapon);
+            stats[player].negatives.insert(&guess.room);
+        }
+    }
 }
 
 void Analyzer::analyze_negatives(std::map<const Player *, Stats>& stats) const
 {
-    for (auto& guess: m_game.get_guesses())
+    for (auto& guess: m_game.get_const_guesses())
     {
         if (not guess.answer) {
             auto &negatives{stats[guess.answerer].negatives};
