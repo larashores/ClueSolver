@@ -20,8 +20,8 @@ std::map<const Player*, Stats> Analyzer::get_stats() const
     }
     analyze_overrides(stats);
     analyze_guesses(stats);
+    analyze_negatives(stats);
     analyze_num_cards(stats);
-//    analyze_negatives(stats);
     return stats;
 }
 
@@ -47,11 +47,11 @@ void Analyzer::analyze_negatives(std::map<const Player *, Stats>& stats) const
 {
     for (auto& guess: m_game.get_const_guesses())
     {
-        if (not guess.answer) {
-            auto &negatives{stats[guess.answerer].negatives};
-            bool no_murderer{negatives.find(&guess.murderer) != negatives.end()};
-            bool no_weapon{negatives.find(&guess.weapon) != negatives.end()};
-            bool no_room{negatives.find(&guess.room) != negatives.end()};
+        if (guess.answerer and not guess.answer) {
+            auto& negatives {stats[guess.answerer].negatives};
+            bool no_murderer {negatives.find(&guess.murderer) != negatives.end()};
+            bool no_weapon {negatives.find(&guess.weapon) != negatives.end()};
+            bool no_room {negatives.find(&guess.room) != negatives.end()};
             if (no_murderer and no_weapon and !no_room) {
                 stats[guess.answerer].positives.insert(&guess.room);
             } else if (no_murderer and !no_weapon and no_room) {
