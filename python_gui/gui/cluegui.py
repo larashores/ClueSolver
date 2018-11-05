@@ -37,6 +37,7 @@ class ClueGui(ttk.Frame):
         tk.Grid.rowconfigure(self, 2, weight=1)
         tk.Grid.columnconfigure(self, 2, weight=1)
 
+        self.guess_list.signal_delete.connect(self.on_delete_guess)
         self.controller.signal_update_analytics.connect(self.on_update)
 
     def on_update(self):
@@ -44,6 +45,11 @@ class ClueGui(ttk.Frame):
         for guess in self.controller.guesses():
             self.guess_list.append(guess)
 
+    def on_delete_guess(self):
+        selection = self.guess_list.get_selection()
+        if selection is not None:
+            self.controller.delete_guess(self.guess_list[selection])
+        self.controller.signal_update_analytics()
 
 class Clue:
     def __init__(self, *args, controller, **kwargs):

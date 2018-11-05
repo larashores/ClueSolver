@@ -19,8 +19,9 @@ public:
     void add_guess(const Player& guessor, const Player* answerer, const std::vector<Player*> skipped,
                    const Person& murderer, const Weapon& weapon, const Room& room,
                    const Card* card = nullptr);
-    const std::vector<Guess>& get_const_guesses() const;
-    std::vector<Guess>& get_guesses();
+    void delete_guess(Guess& guess);
+    const std::list<Guess>& get_const_guesses() const;
+    std::list<Guess>& get_guesses();
     const std::list<Player>& get_const_players() const;
     std::vector<Player*> get_players();
     int get_remaining_cards() const;
@@ -37,5 +38,5 @@ private:
     const Player* m_active_player {nullptr};
 
     std::list<Player> m_players;
-    std::vector<Guess> m_guesses;
+    std::list<Guess> m_guesses;
 };

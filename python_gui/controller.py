@@ -49,5 +49,8 @@ class Controller:
     def add_guess(self, *args, **kwargs):
         self._game.add_guess(*args, **kwargs)
 
+    def delete_guess(self, *args, **kwargs):
+        self._game.delete_guess(*args, **kwargs)
+
     def guesses(self):
         return self._game.get_guesses()

@@ -63,6 +63,4 @@ namespace python {
         }
         game.add_guess(guessor, answerer, dont_haves, murderer, weapon, room, card);
     }
-
-
 }  // namespace python

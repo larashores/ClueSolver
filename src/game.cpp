@@ -26,6 +26,11 @@ void Game::add_guess(const Player& guessor, const Player* answerer, const std::v
     m_guesses.emplace_back(guessor, answerer, murderer, weapon, room, skipped, card);
 }
 
+void Game::delete_guess(Guess& guess)
+{
+    m_guesses.remove_if([&](Guess& guess2){return &guess == &guess2;});
+}
+
 void Game::set_active_player(const Player& player)
 {
     m_active_player = &player;
@@ -35,13 +40,12 @@ const Player* Game::get_active_player() const
 {
     return m_active_player;
 }
-const std::vector<Guess>& Game::get_const_guesses() const
+const std::list<Guess>& Game::get_const_guesses() const
 {
     return m_guesses;
 }
 
-
-std::vector<Guess>& Game::get_guesses()
+std::list<Guess>& Game::get_guesses()
 {
     return m_guesses;
 }
