@@ -4,6 +4,7 @@
 #include "../include/game.h"
 #include "../include/override.h"
 
+
 Analyzer::Analyzer(const Game& game) :
     m_game{game}
 {
@@ -20,8 +21,14 @@ std::map<const Player*, Stats> Analyzer::get_stats() const
     }
     analyze_overrides(stats);
     analyze_guesses(stats);
-    analyze_negatives(stats);
-    analyze_num_cards(stats);
+    bool progress {true};
+    int tries {50};   // Fallback in case of contradiction
+    while (progress and tries > 0)
+    {
+        progress = analyze_negatives(stats) ? progress : false;
+        progress = analyze_num_cards(stats) ? progress : false;
+        tries--;
+    }
     return stats;
 }
 
@@ -43,8 +50,9 @@ void Analyzer::analyze_guesses(std::map<const Player *, Stats>& stats) const
     }
 }
 
-void Analyzer::analyze_negatives(std::map<const Player *, Stats>& stats) const
+bool Analyzer::analyze_negatives(std::map<const Player *, Stats>& stats) const
 {
+    bool progress {false};
     for (auto& guess: m_game.get_const_guesses())
     {
         if (guess.answerer and not guess.answer) {
@@ -52,22 +60,34 @@ void Analyzer::analyze_negatives(std::map<const Player *, Stats>& stats) const
             bool no_murderer {negatives.find(&guess.murderer) != negatives.end()};
             bool no_weapon {negatives.find(&guess.weapon) != negatives.end()};
             bool no_room {negatives.find(&guess.room) != negatives.end()};
+            const Card* card {nullptr};
             if (no_murderer and no_weapon and !no_room) {
-                stats[guess.answerer].positives.insert(&guess.room);
+                card = &guess.room;
             } else if (no_murderer and !no_weapon and no_room) {
-                stats[guess.answerer].positives.insert(&guess.weapon);
+                card = &guess.weapon;
             } else if (!no_murderer and no_weapon and no_room) {
-                stats[guess.answerer].positives.insert(&guess.murderer);
+                card = &guess.murderer;
+            }
+            auto& positives {stats[guess.answerer].positives};
+            if (card and positives.find(card) == positives.end())
+            {
+                positives.insert(card);
+                for (auto& player: m_game.get_const_players())
+                {
+                    if (&player != guess.answerer)
+                    {
+                        stats[&player].negatives.insert(card);
+                    }
+                }
+                progress = true;
             }
         }
     }
+    return progress;
 }
-
-
 
 void Analyzer::analyze_overrides(std::map<const Player*, Stats>& stats) const
 {
-
     for(auto& [player, card_map]: m_game.overrides)
     {
         for (auto& [card, override_type]: card_map)
@@ -92,8 +112,9 @@ void Analyzer::analyze_overrides(std::map<const Player*, Stats>& stats) const
     }
 }
 
-void Analyzer::analyze_num_cards(std::map<const Player *, Stats> &stats) const
+bool Analyzer::analyze_num_cards(std::map<const Player *, Stats> &stats) const
 {
+    bool progress {false};
     for (auto& player: m_game.get_const_players())
     {
         auto& positives {stats[&player].positives};
@@ -102,12 +123,14 @@ void Analyzer::analyze_num_cards(std::map<const Player *, Stats> &stats) const
         {
             for (auto& card: m_game.deck.get_all_cards())
             {
-                if (positives.find(card) == positives.end())
+                if (positives.find(card) == positives.end() and negatives.find(card) == negatives.end())
                 {
                     negatives.insert(card);
+                    progress = true;
                 }
             }
         }
     }
+    return progress;
 }
 
