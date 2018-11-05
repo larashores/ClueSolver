@@ -23,6 +23,7 @@ from tkinter.messagebox import showwarning
 class ClueGui(ttk.Frame):
     def __init__(self, *args, controller, **kwargs):
         ttk.Frame.__init__(self, *args, **kwargs)
+        self.controller = controller
         self.card_display = CardDisplay(self, columns=4, controller=controller)
         self.guess_list = ListChoice(self, width=100)
         self.guesses = GuessWidget(self, controller=controller)
@@ -35,6 +36,13 @@ class ClueGui(ttk.Frame):
         self.guesses.grid(column=3, row=1, rowspan=2, sticky=tk.N, padx=(0, 10))
         tk.Grid.rowconfigure(self, 2, weight=1)
         tk.Grid.columnconfigure(self, 2, weight=1)
+
+        self.controller.signal_update_analytics.connect(self.on_update)
+
+    def on_update(self):
+        self.guess_list.clear()
+        for guess in self.controller.guesses():
+            self.guess_list.append(guess)
 
 
 class Clue:

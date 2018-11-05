@@ -45,3 +45,9 @@ class Controller:
 
     def available_cards(self):
         return self._game.remaining_cards()
+
+    def add_guess(self, *args, **kwargs):
+        self._game.add_guess(*args, **kwargs)
+
+    def guesses(self):
+        return self._game.get_guesses()

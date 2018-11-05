@@ -18,7 +18,7 @@ class GuessWidget(ttk.Frame):
         self.answerer = ComboLabel(self, text='Answering Player?')
         self.shown = ComboLabel(self, text='Card Shown?')
         self.skip = SkipWidget(self, controller=controller)
-        self.confirm = ttk.Button(self, text='Confirm')
+        self.confirm = ttk.Button(self, text='Confirm', command=self.on_guess)
 
         for combo in self.guesser, self.answerer:
             combo._var.trace('w', lambda var, ind, op: self.update_skips())
@@ -50,24 +50,25 @@ class GuessWidget(ttk.Frame):
         room = self.location.get()
 
         answerers = [player for player in self.controller.players() if player != self.guesser.get()]
-        self.answerer.set_values([' '] + answerers)
-        self.shown.set_values([murderer, weapon, room])
+        self.answerer.set_values([''] + answerers)
+        self.shown.set_values(['', murderer, weapon, room])
         for combo in self.shown, self.answerer, self.skip.combo:
             if combo.index() == -1:
                 combo.set("")
 
-        for widget in self.guesser, self.character, self.weapon, self.location, self.answerer, self.shown, self.confirm:
+        for widget in self.guesser, self.character, self.weapon, self.location, self.answerer:
             widget.state(['!disabled' if self.guesser.values() else 'disabled'])
         self.skip.state(['!disabled' if self.answerer.get() and self.guesser.get() else 'disabled'])
         self.confirm.state(['!disabled'
-                            if guesser and murderer and weapon and room and self.shown.get()
+                            if guesser and murderer and weapon and room
                             else 'disabled'])
-        self.shown.state(['!disabled' if murderer and weapon and room else 'disabled'])
+        self.shown.state(['!disabled' if murderer and weapon and room and self.answerer.get() else 'disabled'])
 
     def update_skips(self):
         guesser = self.guesser.get()
         answerer = self.answerer.get()
 
+        self.skip.lbox.clear()
         if guesser and answerer:
             skips = [player for player in self.controller.players()
                      if player != self.guesser.get() and player != self.answerer.get()]
@@ -76,12 +77,25 @@ class GuessWidget(ttk.Frame):
             players = self.controller.players()
             ind = players.index(guesser) + 1
             end = players.index(answerer)
-            self.skip.lbox.clear()
             while ind != end:
                 self.skip.add_to_lbox(players[ind])
                 ind = (ind + 1) % len(players)
 
-
     def on_players_changed(self):
         self.guesser.set_values(self.controller.players())
+        self.validate_state()
+
+    def on_guess(self):
+        guesser = self.guesser.get()
+        answer = self.answerer.get() if self.answerer.get() else None
+        murderer = self.character.get()
+        weapon = self.weapon.get()
+        room = self.location.get()
+        card = self.shown.get() if self.shown.get() else None
+        self.controller.add_guess(guesser, answer, murderer, weapon, room, card)
+        self.controller.signal_update_analytics()
+
+        for combo in self.guesser, self.answerer, self.character, self.weapon, self.location, self.shown:
+            combo.set('')
+        self.update_skips()
         self.validate_state()

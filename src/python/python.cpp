@@ -69,7 +69,10 @@ BOOST_PYTHON_MODULE(pyclue)
             .def("murderer", &python::murderer, PY::return_internal_reference<>())
             .def("weapon", &python::weapon, PY::return_internal_reference<>())
             .def("room", &python::room, PY::return_internal_reference<>())
-            .def("answer", &python::answer, PY::return_internal_reference<>());
+            .def("answer", &python::answer, PY::return_internal_reference<>())
+            .def("__str__", &python::string_object<Guess>);
+    PY::register_ptr_to_python<std::shared_ptr<Guess>>();
+    PY::register_ptr_to_python<std::shared_ptr<const Guess>>();
 
     PY::class_<Stats>("Stats")
             .def("positives", &python::positives)

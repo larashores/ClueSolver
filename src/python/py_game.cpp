@@ -8,7 +8,12 @@ namespace python {
 
     PY::list get_guesses(Game& game)
     {
-        return stl2pyptr(game.get_guesses());
+        boost::python::list list;
+        for(auto& guess: game.get_guesses())
+        {
+            list.append(std::shared_ptr<Guess>(&guess, [=](void*){}));
+        }
+        return list;
     }
 
     PY::list get_players(Game& game)

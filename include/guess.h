@@ -21,4 +21,6 @@ struct Guess
     const Room& room;
     const Card* answer;
     std::vector<Player*> skipped_players;
+    
+    explicit operator std::string() const;
 };

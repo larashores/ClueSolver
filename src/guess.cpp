@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../include/guess.h"
 
+#include <sstream>
 
 Guess::Guess(const Player& guesser_, const Player* answerer_,
              const Person& murderer_, const Weapon& weapon_, const Room& room_,
@@ -13,4 +14,16 @@ Guess::Guess(const Player& guesser_, const Player* answerer_,
         answer{answer_},
         skipped_players{skipped}
 {
+}
+
+Guess::operator std::string() const
+{
+    std::ostringstream stream;
+    stream << "Guesser: " << guesser.name << ", Answerer: " << (answerer ? answerer->name : "Nobody")
+           << ", Murderer: " << murderer.name << ", Weapon: " << weapon.name << ", Room: " << room.name;
+    if (answer)
+    {
+        stream << ", Card Shown: " << answer->name;
+    }
+    return stream.str();
 }
