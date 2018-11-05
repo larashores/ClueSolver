@@ -58,7 +58,7 @@ class GuessWidget(ttk.Frame):
 
         for widget in self.guesser, self.character, self.weapon, self.location, self.answerer:
             widget.state(['!disabled' if self.guesser.values() else 'disabled'])
-        self.skip.state(['!disabled' if self.answerer.get() and self.guesser.get() else 'disabled'])
+        self.skip.state(['!disabled' if self.guesser.get() else 'disabled'])
         self.confirm.state(['!disabled'
                             if guesser and murderer and weapon and room
                             else 'disabled'])
@@ -68,18 +68,21 @@ class GuessWidget(ttk.Frame):
         guesser = self.guesser.get()
         answerer = self.answerer.get()
 
+        skips = [player for player in self.controller.players()
+                 if player != self.guesser.get() and player != self.answerer.get()]
+        self.skip.set_values(skips)
         self.skip.lbox.clear()
         if guesser and answerer:
-            skips = [player for player in self.controller.players()
-                     if player != self.guesser.get() and player != self.answerer.get()]
-            self.skip.set_values(skips)
-
             players = self.controller.players()
             ind = players.index(guesser) + 1
             end = players.index(answerer)
             while ind != end:
                 self.skip.add_to_lbox(players[ind])
                 ind = (ind + 1) % len(players)
+        elif guesser:
+            for player in self.controller.players():
+                if player != guesser:
+                    self.skip.add_to_lbox(player)
 
     def on_players_changed(self):
         self.guesser.set_values(self.controller.players())

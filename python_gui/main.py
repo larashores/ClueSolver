@@ -10,6 +10,7 @@ from python_gui.controller import Controller
 def main():
     root = tk.Tk()
     menu = ClueMenu()
+    root.wm_title('Clue Solver')
     root.config(menu=menu)
     configure_styles()
     controller = Controller()

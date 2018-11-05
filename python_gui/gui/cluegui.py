@@ -25,7 +25,7 @@ class ClueGui(ttk.Frame):
         ttk.Frame.__init__(self, *args, **kwargs)
         self.controller = controller
         self.card_display = CardDisplay(self, columns=4, controller=controller)
-        self.guess_list = ListChoice(self, width=100)
+        self.guess_list = ListChoice(self, width=100, font=('tkdefaultfont', 14, 'normal'))
         self.guesses = GuessWidget(self, controller=controller)
         self.names = NameWidget(self, controller=controller)
 

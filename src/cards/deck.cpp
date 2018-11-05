@@ -3,7 +3,7 @@
 
 Deck::Deck() :
     people{"Col. Mustard"_p ,
-           "Prof, Plum"_p ,
+           "Prof. Plum"_p ,
            "Mr. Green"_p ,
            "Mrs. Peacock"_p ,
            "Mrs. Scarlet"_p ,
